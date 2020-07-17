@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#5c6bc0</color>
+    <color name="colorPrimaryDark">#26418f</color>
+    <color name="colorAccent">#8e99f3</color>
 
     <color name="mainBackground">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="dark_300">#E1E1E1</color>
+    <color name="dark_600">#757575</color>
+    <color name="dark_800">#424242</color>
+    <color name="dark_900">#242424</color>
+    <color name="dark_1000">#111111</color>
+
+    <color name="telegramColor">#2CA5E0</color>
+    <color name="githubColor">#181717</color>
+    <color name="instagramColor">#E4405F</color>
 </resources>

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">CubeMate</string>
+    <string name="welcome">Welcome to CubeMate!</string>
+    <string name="about">CubeMate - is a SpeedCube Timer. Here you can train and see your statistics. CubeMate is absolutely free and without any ads.</string>
+    <string name="understand">Understand</string>
+    <string name="timer">Timer</string>
+    <string name="stats">Stats</string>
+    <string name="settings">Settings</string>
+    <string name="about_menu">About</string>
+    <string name="settings_menu">Settings</string>
+    <string name="contact_us_menu">Contact Us</string>
+    <string name="credits_menu">Credits</string>
+    <string name="info_menu">Info</string>
+    <string name="rate_app">Rate App</string>
+    <string name="app_version">App Version:</string>
+    <string name="dark_mode_text">Turn on Dark Mode</string>
 </resources>

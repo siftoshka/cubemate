@@ -3,12 +3,14 @@ package az.siftoshka.cubemate.ui
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import az.siftoshka.cubemate.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -25,10 +27,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         navHostFragment.findNavController()
             .addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment ->
+                    R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {
+                        Timber.d("NAVBAR")
+                        if (destination.id == R.id.timerFragment) hideStatusBar()
+                        else showStatusBar()
                         bottomNavigationView.visibility = View.VISIBLE
+                    }
                     else -> bottomNavigationView.visibility = View.GONE
                 }
             }
+    }
+
+    private fun showStatusBar() {
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
+    private fun hideStatusBar() {
+        window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 }

@@ -4,15 +4,15 @@
     <item
         android:id="@+id/timerFragment"
         android:icon="@drawable/ic_timer"
-        android:title="Timer" />
+        android:title="@string/timer" />
 
     <item
         android:id="@+id/statisticsFragment"
         android:icon="@drawable/ic_statistics"
-        android:title="Stats" />
+        android:title="@string/stats" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
 </menu>

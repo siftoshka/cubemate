@@ -111,6 +111,6 @@ dependencies {
     //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //Smooth Bottom Bar
-    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6'
+    //Lottie
+    implementation "com.airbnb.android:lottie:3.4.1"
 }

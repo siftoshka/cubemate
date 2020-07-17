@@ -20,4 +20,8 @@
         <item name="android:textCursorDrawable">@drawable/cursor</item>
     </style>
 
+    <style name="ColorSwitchStyle">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 </resources>
