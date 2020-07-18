@@ -16,4 +16,6 @@
     <string name="dark_mode_text">Turn on Dark Mode</string>
     <string name="timer_hint">Put your Cube into a square \n when you are ready</string>
     <string name="your_average_score">Your average score is</string>
+    <string name="your_result">Your result is</string>
+    <string name="cube_mode">In a cube mode:</string>
 </resources>
