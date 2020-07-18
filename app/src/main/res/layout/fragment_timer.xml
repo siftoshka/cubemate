@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/mainBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     android:orientation="vertical"
     tools:context=".ui.fragments.TimerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:layout_marginTop="-5dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="-5dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/cube"
@@ -21,6 +21,37 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="5dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/pulse" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/semibold"
+        android:gravity="center_horizontal"
+        android:text="@string/timer_hint"
+        android:textColor="@color/dark_800"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/regular"
+        android:text="00:00:00"
+        android:textColor="@color/colorPrimary"
+        android:textSize="50sp"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>
