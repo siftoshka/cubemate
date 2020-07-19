@@ -35,7 +35,7 @@
                     android:maxLines="1"
                     android:text="@string/your_result"
                     android:textColor="@color/dark_600"
-                    android:textSize="23sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/scoreText"
@@ -45,7 +45,7 @@
                     android:fontFamily="@font/regular"
                     android:maxLines="1"
                     android:textColor="@color/dark_600"
-                    android:textSize="23sp"
+                    android:textSize="20sp"
                     tools:text="24.567 s" />
             </LinearLayout>
 
@@ -62,7 +62,7 @@
                     android:maxLines="1"
                     android:text="@string/cube_mode"
                     android:textColor="@color/dark_600"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/typeText"
@@ -72,7 +72,7 @@
                     android:fontFamily="@font/regular"
                     android:maxLines="1"
                     android:textColor="@color/dark_600"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     tools:text="3x3" />
 
                 <TextView

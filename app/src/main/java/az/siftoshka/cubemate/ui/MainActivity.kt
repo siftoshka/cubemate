@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import az.siftoshka.cubemate.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,10 +25,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             window.navigationBarColor = resources.getColor(R.color.mainBackground)
 
 
-        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+//        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+        val navController = Navigation.findNavController(this, R.id.navHostFragment)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-
-        navHostFragment.findNavController()
+        navController
             .addOnDestinationChangedListener { controller, destination, arguments ->
                 val prefs = getSharedPreferences("Tap-Mode", Context.MODE_PRIVATE)
                 val tapMode = prefs.getInt("Tap", 0)

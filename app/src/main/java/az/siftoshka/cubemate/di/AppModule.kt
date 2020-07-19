@@ -2,7 +2,7 @@ package az.siftoshka.cubemate.di
 
 import android.content.Context
 import androidx.room.Room
-import az.siftoshka.cubemate.Constants.RESULTS_DATABASE_NAME
+import az.siftoshka.cubemate.utils.Constants.RESULTS_DATABASE_NAME
 import az.siftoshka.cubemate.db.ResultDatabase
 import dagger.Module
 import dagger.Provides

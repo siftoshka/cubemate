@@ -9,11 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.utils.TypeConverter
-import java.text.SimpleDateFormat
 import kotlinx.android.synthetic.main.item_stat.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
-class StatAdapter : RecyclerView.Adapter<StatAdapter.StatViewHolder>() {
+
+class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerView.Adapter<StatAdapter.StatViewHolder>() {
+
+    companion object {
+        var mClickListener: StatItemClickListener? = null
+    }
+
+    interface StatItemClickListener {
+        fun onPostClicked(result: Result)
+    }
 
     inner class StatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -54,8 +63,13 @@ class StatAdapter : RecyclerView.Adapter<StatAdapter.StatViewHolder>() {
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             dateText.text = dateFormat.format(calendar.time)
 
-            scoreText.text = "${stat.timeInSeconds}"
+            scoreText.text = "${stat.timeInSeconds} sec"
             typeText.text = TypeConverter.convertToString(stat.type)
+            mClickListener = clickListener
+            holder.itemView.setOnLongClickListener {
+                mClickListener?.onPostClicked(stat)
+                true
+            }
         }
     }
 }

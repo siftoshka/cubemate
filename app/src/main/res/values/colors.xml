@@ -8,6 +8,7 @@
     <color name="background">#212121</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="gray">#424242</color>
 
     <color name="dark_300">#F9F9F9</color>
     <color name="dark_600">#F6F6F6</color>

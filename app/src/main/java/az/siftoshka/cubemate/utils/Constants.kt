@@ -1,4 +1,4 @@
-package az.siftoshka.cubemate
+package az.siftoshka.cubemate.utils
 
 object Constants {
 

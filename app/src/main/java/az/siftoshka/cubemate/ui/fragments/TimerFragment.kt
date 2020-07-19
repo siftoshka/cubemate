@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import az.siftoshka.cubemate.R
+import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
 import timber.log.Timber
@@ -96,6 +98,8 @@ class TimerFragment : Fragment(), SensorEventListener {
                             animationImage?.setAnimation(R.raw.pulse)
                             animationImage?.playAnimation()
                             isStarted = false
+                            val result = Result(25.67f,2345, 3)
+                            openDialog(result)
                         } else {
                             animationImage.visibility = View.VISIBLE
                             animationImage?.setAnimation(R.raw.puzzle)
@@ -108,6 +112,17 @@ class TimerFragment : Fragment(), SensorEventListener {
                 true
             }
         }
+    }
+
+    private fun openDialog(result: Result) {
+        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.AppCompatAlertDialogStyle)
+        builder.setTitle("Save Result")
+        builder.setMessage("Your score is ${result.timeInSeconds}.\nDo you want to save?")
+        builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            viewModel.insertResult(result)
+        }
+        builder.setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
+        builder.show()
     }
 
     override fun onResume() {

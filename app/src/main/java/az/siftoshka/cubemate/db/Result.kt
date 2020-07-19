@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "results_table")
 data class Result(
-    var timeInSeconds: Long = 0L,
+    var timeInSeconds: Float = 0f,
     var timestamp: Long = 0L,
     var type: Int = 0
 ) {

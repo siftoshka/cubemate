@@ -10,7 +10,11 @@ class MainRepository @Inject constructor(private val resultDAO: ResultDAO) {
 
     suspend fun deleteAllResults() = resultDAO.deleteAllResults()
 
-    fun getAllResults() = resultDAO.getAllResults()
+    fun getAllResultsByTime() = resultDAO.getAllResultsByTime()
+
+    fun getAllResultsByDate() = resultDAO.getAllResultsByDate()
+
+    fun getAllResultsByType() = resultDAO.getAllResultsByType()
 
     fun getAvgResult() = resultDAO.getAvgResult()
 

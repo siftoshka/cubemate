@@ -12,12 +12,12 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import androidx.fragment.app.Fragment
-import az.siftoshka.cubemate.Constants.DESIGNER_FREEPIK
-import az.siftoshka.cubemate.Constants.DESIGNER_OKTAY
-import az.siftoshka.cubemate.Constants.DEV_GITHUB
-import az.siftoshka.cubemate.Constants.DEV_INSTAGRAM
-import az.siftoshka.cubemate.Constants.DEV_TELEGRAM
-import az.siftoshka.cubemate.Constants.FLATICON
+import az.siftoshka.cubemate.utils.Constants.DESIGNER_FREEPIK
+import az.siftoshka.cubemate.utils.Constants.DESIGNER_OKTAY
+import az.siftoshka.cubemate.utils.Constants.DEV_GITHUB
+import az.siftoshka.cubemate.utils.Constants.DEV_INSTAGRAM
+import az.siftoshka.cubemate.utils.Constants.DEV_TELEGRAM
+import az.siftoshka.cubemate.utils.Constants.FLATICON
 import az.siftoshka.cubemate.R
 import kotlinx.android.synthetic.main.fragment_settings.*
 
