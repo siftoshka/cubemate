@@ -13,10 +13,10 @@
         android:layout_height="280dp"
         android:layout_gravity="center"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="-5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/cube"
+        android:background="@drawable/cube_full"
         android:elevation="5dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -28,6 +28,8 @@
             android:id="@+id/animationImage"
             android:layout_width="match_parent"
             android:layout_height="280dp"
+            android:clickable="false"
+            android:focusable="false"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/pulse" />
@@ -40,21 +42,9 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/semibold"
         android:gravity="center_horizontal"
-        android:text="@string/timer_hint"
+        android:text="Press and take into a square \n to start a timer"
         android:textColor="@color/dark_800"
         android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/semibold"
-        android:gravity="center_horizontal"
-        android:text="TEST"
-        android:textColor="@color/dark_800"
-        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/timerText"

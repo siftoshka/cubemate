@@ -30,29 +30,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/semibold"
-                android:text="@string/your_average_score"
-                android:textColor="@color/dark_800"
-                android:textSize="24sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/semibold"
-                android:text="26.789"
-                android:textColor="@color/dark_800"
-                android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/semibold"
+                    android:text="@string/your_average_score"
+                    android:textColor="@color/dark_800"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/semibold"
+                    android:text=""
+                    android:textColor="@color/dark_800"
+                    android:textSize="26sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
 
@@ -62,9 +64,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="@string/stats"
-                app:titleTextColor="@color/dark_900"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:titleTextColor="@color/dark_900" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -77,6 +79,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:clipToPadding="true"
+        android:overScrollMode="never"
         android:paddingBottom="24dp"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

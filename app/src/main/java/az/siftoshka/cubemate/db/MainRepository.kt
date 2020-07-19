@@ -14,4 +14,8 @@ class MainRepository @Inject constructor(private val resultDAO: ResultDAO) {
 
     fun getAvgResult() = resultDAO.getAvgResult()
 
+    fun getBestResult() = resultDAO.getBestResult()
+
+    fun getRecentResult() = resultDAO.getRecentResult()
+
 }

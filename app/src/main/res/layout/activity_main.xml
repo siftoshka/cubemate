@@ -30,8 +30,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
+        android:background="@color/mainBackground"
+        android:fontFamily="@font/regular"
+        app:itemIconSize="22dp"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@color/dark_900"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 

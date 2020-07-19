@@ -4,16 +4,16 @@
     <color name="colorPrimaryDark">#26418f</color>
     <color name="colorAccent">#8e99f3</color>
 
-    <color name="mainBackground">#FFFFFF</color>
-    <color name="background">#FFFFFF</color>
+    <color name="mainBackground">#111111</color>
+    <color name="background">#212121</color>
 
     <color name="white">#FFFFFF</color>
 
-    <color name="dark_300">#E1E1E1</color>
-    <color name="dark_600">#757575</color>
-    <color name="dark_800">#424242</color>
-    <color name="dark_900">#242424</color>
-    <color name="dark_1000">#111111</color>
+    <color name="dark_300">#F9F9F9</color>
+    <color name="dark_600">#F6F6F6</color>
+    <color name="dark_800">#F4F4F4</color>
+    <color name="dark_900">#F1F1F1</color>
+    <color name="dark_1000">#FFFFFF</color>
 
     <color name="telegramColor">#2CA5E0</color>
     <color name="githubColor">#181717</color>

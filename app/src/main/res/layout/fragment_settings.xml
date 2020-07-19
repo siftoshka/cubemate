@@ -18,9 +18,9 @@
             android:id="@+id/cToolbar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:background="@color/mainBackground"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/mainBackground"
-            android:background="@color/mainBackground"
             app:expandedTitleTextAppearance="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="true"
@@ -45,8 +45,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextColor="@color/dark_900"
-                app:title="@string/settings" />
+                app:title="@string/settings"
+                app:titleTextColor="@color/dark_900" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -174,7 +174,6 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:id="@+id/darkModeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -188,12 +187,12 @@
                         android:fontFamily="@font/regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:text="@string/dark_mode_text"
+                        android:text="@string/tap_mode_text"
                         android:textColor="@color/dark_600"
                         android:textSize="16sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/themeSwitcher"
+                        android:id="@+id/modeSwitcher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
@@ -357,39 +356,6 @@
                     android:textColor="@color/dark_800"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/privacyPolicy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/semibold"
-                        android:maxLines="1"
-                        android:text="Privacy Policy"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
-                        tools:ignore="HardcodedText" />
-
-                    <TextView
-                        android:id="@+id/termsOfService"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/semibold"
-                        android:maxLines="1"
-                        android:text="Terms of Service"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
-                        tools:ignore="HardcodedText" />
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/license"

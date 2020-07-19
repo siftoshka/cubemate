@@ -18,4 +18,5 @@
     <string name="your_average_score">Your average score is</string>
     <string name="your_result">Your result is</string>
     <string name="cube_mode">In a cube mode:</string>
+    <string name="tap_mode_text">Turn on Tap Mode (Timer)</string>
 </resources>

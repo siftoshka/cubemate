@@ -1,5 +1,6 @@
 package az.siftoshka.cubemate.ui
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -24,12 +25,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
 
+
         navHostFragment.findNavController()
-            .addOnDestinationChangedListener { _, destination, _ ->
+            .addOnDestinationChangedListener { controller, destination, arguments ->
+                val prefs = getSharedPreferences("Tap-Mode", Context.MODE_PRIVATE)
+                val tapMode = prefs.getInt("Tap", 0)
                 when (destination.id) {
                     R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {
                         Timber.d("NAVBAR")
-                        if (destination.id == R.id.timerFragment) hideStatusBar()
+                        if (destination.id == R.id.timerFragment && tapMode == 100) hideStatusBar()
                         else showStatusBar()
                         bottomNavigationView.visibility = View.VISIBLE
                     }
