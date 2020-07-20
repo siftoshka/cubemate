@@ -64,7 +64,7 @@ class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerVi
             dateText.text = dateFormat.format(calendar.time)
 
             scoreText.text = "${stat.timeInSeconds} sec"
-            typeText.text = TypeConverter.convertToString(stat.type)
+            typeText.text = stat.type
             mClickListener = clickListener
             holder.itemView.setOnLongClickListener {
                 mClickListener?.onPostClicked(stat)

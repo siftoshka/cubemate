@@ -22,4 +22,15 @@
     <string name="avg_error">You don\'t have any scores</string>
     <string name="tap_text_start">Press and take into a square \n to start a timer</string>
     <string name="ready">Ready?</string>
+    <string name="cube_type_text">Select Cube Type</string>
+    <string name="unsupported">Light Sensor is not supported \n on your device</string>
+    <string name="try_again">Try Again</string>
+
+    <string-array name="Types">
+        <item>3x3</item>
+        <item>4x4</item>
+        <item>5x5</item>
+        <item>6x6</item>
+        <item>7x7</item>
+    </string-array>
 </resources>

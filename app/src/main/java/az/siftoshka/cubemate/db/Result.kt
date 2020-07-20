@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Result(
     var timeInSeconds: Float = 0f,
     var timestamp: Long = 0L,
-    var type: Int = 0
+    var type: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

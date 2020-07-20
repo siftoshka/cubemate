@@ -1,6 +1,7 @@
 package az.siftoshka.cubemate.ui.fragments
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.net.Uri
@@ -11,6 +12,8 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_FREEPIK
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_OKTAY
@@ -34,6 +37,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spannableCreditOktay()
         spannableCreditFreepik()
         modeSwitcher()
+        spinner()
     }
 
     private fun modeSwitcher() {
@@ -148,6 +152,29 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spannableStringFreepik.setSpan(clickableSpan2, 27, 43, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         creditsFreepik.text = spannableStringFreepik
         creditsFreepik.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun spinner() {
+        val types = resources.getStringArray(R.array.Types)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, types)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val editor = requireContext().getSharedPreferences(
+                    "Cube-Type",
+                    Context.MODE_PRIVATE
+                ).edit()
+                editor.putString("Type", types[position])
+                editor.apply()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 
 }

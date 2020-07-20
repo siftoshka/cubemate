@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer.animationImage
@@ -35,6 +35,10 @@ class TimerFragment : Fragment(), SensorEventListener {
     private var lightSensor: Sensor? = null
 
     private var tapMode = 0
+    private var alreadyReady = false
+    private var alreadyStart = false
+    private var alreadyFinish = false
+    private var type: String? = null
     private var isReady = false
     private var isStarted = false
     private var isActive = false
@@ -44,10 +48,6 @@ class TimerFragment : Fragment(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firstOpen()
-        sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
-        lightSensor = sensorManager!!.getDefaultSensor(TYPE_LIGHT)
-
-        if (lightSensor == null) Timber.e("lightSensor is not working")
     }
 
     override fun onCreateView(
@@ -64,6 +64,8 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getTapModeFunctionality()
+        val prefs = requireContext().getSharedPreferences("Cube-Type", Context.MODE_PRIVATE)
+        type = prefs.getString("Type", null)
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -72,22 +74,28 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private fun getLightSensor(event: SensorEvent?) {
         val value = event?.values?.get(0)?.toInt()
-        if (value != null) {
+        if (value != null && tapMode == 100) {
             test?.text = value.toString()
-            if (value < 15) {
+            if (value <= currentMin(value)) {
                 when (isActive && isReady) {
                     true -> {
-                        Timber.d("OK")
-                        isActive = false
+                        Timber.d("FINISH")
                         isReady = false
+                        isActive = false
+                        sensorManager?.unregisterListener(this)
+                        finishSensorStage()
                     }
-                    false -> isReady = true
+                    false -> {
+                        Timber.d("READY")
+                        isReady = true
+                        readySensorStage()
+                    }
                 }
             }
-            if (value > 15 && isReady) {
-                Timber.d("starting...")
+            if (value > currentMin(value) && isReady) {
+                Timber.d("START")
                 isActive = true
-                isReady = false
+                startSensorStage()
             }
         }
     }
@@ -96,37 +104,11 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (tapMode == 101) {
             animationImage.setOnTouchListener { v, event ->
                 when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        if (!isStarted) {
-                            animationImage.visibility = View.INVISIBLE
-                            chronometer.setTextColor(resources.getColor(R.color.red))
-                            chronometer.textSize = 30F
-                            tapText.text = resources.getString(R.string.ready)
-                        }
-                    }
+                    MotionEvent.ACTION_DOWN -> if (!isStarted) readyStage()
                     MotionEvent.ACTION_UP -> {
-                        if (isStarted) {
-                            animationImage.visibility = View.VISIBLE
-                            animationImage?.setAnimation(R.raw.pulse)
-                            animationImage?.playAnimation()
-                            isStarted = false
-                            val elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.base)
-                            chronometer.stop()
-                            val result = Result(elapsedMillis.toFloat() / 1000, Date().time, 3)
-                            chronometer.base = SystemClock.elapsedRealtime()
-                            chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
-                            chronometer.textSize = 50F
-                            openDialog(result)
-                        } else {
-                            animationImage.visibility = View.VISIBLE
-                            animationImage?.setAnimation(R.raw.puzzle)
-                            animationImage?.playAnimation()
-                            isStarted = true
-                            chronometer.base = SystemClock.elapsedRealtime()
-                            chronometer.start()
-                            chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
-                            chronometer.textSize = 50F
-                            tapText.text = resources.getString(R.string.go)
+                        if (isStarted) finishStage()
+                        else {
+                            startStage()
                             v.performClick()
                         }
                     }
@@ -136,16 +118,113 @@ class TimerFragment : Fragment(), SensorEventListener {
         }
     }
 
-    private fun openDialog(result: Result) {
-        val builder =
-            MaterialAlertDialogBuilder(requireContext(), R.style.AppCompatAlertDialogStyle)
-        builder.setTitle("Save Result")
-        builder.setMessage("Your score is ${result.timeInSeconds} seconds.\nDo you want to save?")
-        builder.setPositiveButton(android.R.string.yes) { _, _ ->
+    private fun showMessage(result: Result) {
+        alreadyReady = false
+        alreadyStart = false
+        alreadyFinish = false
+        if (tapMode != 101) {
+            Snackbar.make(timerLayout, "Your score ${result.timeInSeconds} seconds is saved", Snackbar.LENGTH_SHORT).show()
+            viewModel.insertResult(result)
+            tryAgainButton?.visibility = View.VISIBLE
+            animationImage?.visibility = View.GONE
+            sensorText.visibility = View.INVISIBLE
+            tryAgainButton?.setOnClickListener {
+                registerSensor()
+                tryAgainButton.visibility = View.GONE
+                animationImage?.visibility = View.VISIBLE
+                sensorText.visibility = View.VISIBLE
+            }
+        } else {
+            Snackbar.make(timerLayoutAlt, "Your score ${result.timeInSeconds} seconds is saved", Snackbar.LENGTH_SHORT).show()
             viewModel.insertResult(result)
         }
-        builder.setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
-        builder.show()
+    }
+
+    private fun readyStage() {
+        animationImage?.visibility = View.INVISIBLE
+        chronometer?.setTextColor(resources.getColor(R.color.red))
+        chronometer?.textSize = 30F
+        tapText?.text = resources.getString(R.string.ready)
+    }
+
+    private fun startStage() {
+        animationImage?.visibility = View.VISIBLE
+        animationImage?.setAnimation(R.raw.puzzle)
+        animationImage?.playAnimation()
+        isStarted = true
+        chronometer?.base = SystemClock.elapsedRealtime()
+        chronometer?.start()
+        chronometer?.setTextColor(resources.getColor(R.color.colorPrimary))
+        chronometer?.textSize = 50F
+        tapText?.text = resources.getString(R.string.go)
+    }
+
+    private fun finishStage() {
+        animationImage.visibility = View.VISIBLE
+        animationImage?.setAnimation(R.raw.pulse)
+        animationImage?.playAnimation()
+        isStarted = false
+        val elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.base)
+        chronometer.stop()
+        if (type == null) type = "3x3"
+        val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type)
+        chronometer.base = SystemClock.elapsedRealtime()
+        chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+        chronometer.textSize = 50F
+        showMessage(result)
+    }
+
+    private fun currentMin(value: Int?): Int {
+        return when (value) {
+            in 30..1000 -> 20
+            in 1000..10000 -> 50
+            in 10000..30000 -> 100
+            else -> 20
+        }
+    }
+
+    private fun readySensorStage() {
+        if (!alreadyReady) {
+            Timber.d("Already ready: $alreadyReady")
+            animationImage?.visibility = View.INVISIBLE
+            sChronometer?.setTextColor(resources.getColor(R.color.red))
+            sChronometer?.textSize = 30F
+            sensorText?.text = resources.getString(R.string.ready)
+            alreadyReady = true
+        }
+    }
+
+    private fun startSensorStage() {
+        if (!alreadyStart) {
+            Timber.d("Already start: $alreadyStart")
+            animationImage?.visibility = View.VISIBLE
+            animationImage?.setAnimation(R.raw.puzzle)
+            animationImage?.playAnimation()
+            sChronometer?.base = SystemClock.elapsedRealtime()
+            sChronometer?.start()
+            sChronometer?.setTextColor(resources.getColor(R.color.colorPrimary))
+            sChronometer?.textSize = 50F
+            sensorText?.text = resources.getString(R.string.go)
+            alreadyStart = true
+        }
+    }
+
+    private fun finishSensorStage() {
+        if (!alreadyFinish) {
+            Timber.d("Already finish: $alreadyFinish")
+            alreadyFinish = true
+            animationImage.visibility = View.VISIBLE
+            animationImage?.setAnimation(R.raw.pulse)
+            animationImage?.playAnimation()
+            val elapsedMillis = (SystemClock.elapsedRealtime() - sChronometer.base)
+            sChronometer.stop()
+            if (type == null) type = "3x3"
+            val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type)
+            sChronometer.base = SystemClock.elapsedRealtime()
+            sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+            sChronometer.textSize = 50F
+            showMessage(result)
+        }
     }
 
     private fun firstOpen() {
@@ -156,11 +235,24 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun registerSensor() {
+        sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
+        lightSensor = sensorManager!!.getDefaultSensor(TYPE_LIGHT)
+
+        if (lightSensor == null) unsupportedSensor()
         lightSensor.also {
             sensorManager!!.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
         }
+    }
+
+    private fun unsupportedSensor() {
+        if (tapMode == 100)
+            sensorText?.text = resources.getString(R.string.unsupported)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerSensor()
     }
 
     override fun onPause() {
