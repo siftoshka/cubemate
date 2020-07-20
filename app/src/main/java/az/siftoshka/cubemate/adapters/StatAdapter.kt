@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
-import az.siftoshka.cubemate.utils.TypeConverter
 import kotlinx.android.synthetic.main.item_stat.view.*
 import java.text.SimpleDateFormat
 import java.util.*

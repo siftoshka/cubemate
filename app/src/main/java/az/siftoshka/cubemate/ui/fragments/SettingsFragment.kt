@@ -11,7 +11,9 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
@@ -23,6 +25,9 @@ import az.siftoshka.cubemate.utils.Constants.DEV_TELEGRAM
 import az.siftoshka.cubemate.utils.Constants.FLATICON
 import az.siftoshka.cubemate.R
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -156,7 +161,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun spinner() {
         val types = resources.getStringArray(R.array.Types)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, types)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_txt, types)
+        val prefs = requireContext().getSharedPreferences("Cube-Type", MODE_PRIVATE)
+        val spinnerItem = prefs.getString("Type", null)
+        GlobalScope.launch {
+            spinner.setSelection(types.indexOf(spinnerItem))
+        }
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -167,7 +177,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             ) {
                 val editor = requireContext().getSharedPreferences(
                     "Cube-Type",
-                    Context.MODE_PRIVATE
+                    MODE_PRIVATE
                 ).edit()
                 editor.putString("Type", types[position])
                 editor.apply()
@@ -175,6 +185,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
     }
 
 }

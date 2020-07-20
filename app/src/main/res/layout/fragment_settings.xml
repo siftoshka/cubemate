@@ -181,8 +181,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/regular"
                         android:gravity="center_vertical"
@@ -195,6 +195,7 @@
                         android:id="@+id/modeSwitcher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:checked="false"
                         android:gravity="center_vertical"
                         app:theme="@style/ColorSwitchStyle" />
@@ -209,8 +210,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
@@ -218,14 +219,33 @@
                         android:textColor="@color/dark_600"
                         android:textSize="16sp" />
 
-                    <Spinner
-                        android:id="@+id/spinner"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_gravity="end"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        app:theme="@style/ColorSwitchStyle" />
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center"
+                        android:padding="1dp"
+                        android:layout_weight=".28"
+                        android:background="@drawable/spinner_bg"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:popupBackground="@color/gray"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_repeat" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
