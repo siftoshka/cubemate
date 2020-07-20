@@ -230,12 +230,20 @@ class TimerFragment : Fragment(), SensorEventListener {
     private fun firstOpen() {
         val prefs = requireContext().getSharedPreferences("First-Open", Context.MODE_PRIVATE)
         val launch = prefs.getInt("Launch", 0)
-        if (launch == 100)
+        if (launch == 100) {
             findNavController().navigate(R.id.action_timerFragment_to_startFragment)
+            val editor = requireContext().getSharedPreferences(
+                "Tap-Mode",
+                Context.MODE_PRIVATE
+            ).edit()
+            editor.putInt("Tap", 100)
+            editor.apply()
+        }
 
     }
 
     private fun registerSensor() {
+        Timber.d("ON RESUME")
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager!!.getDefaultSensor(TYPE_LIGHT)
 
@@ -246,7 +254,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     private fun unsupportedSensor() {
-        if (tapMode == 100)
+        if (tapMode != 101)
             sensorText?.text = resources.getString(R.string.unsupported)
     }
 
