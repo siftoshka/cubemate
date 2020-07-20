@@ -36,7 +36,12 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner, Observer {
-        avgScore.text = it.toString()
+        avgScore?.text = it?.toString()
+        if (it == null) {
+            avgScore?.textSize = 14F
+            avgScore?.setTextColor(resources.getColor(R.color.gray))
+            avgScore?.text = getString(R.string.avg_error)
+        }
     })
 
     private fun setupRecyclerView() = recyclerView.apply {

@@ -19,4 +19,7 @@
     <string name="your_result">Your result is</string>
     <string name="cube_mode">In a cube mode:</string>
     <string name="tap_mode_text">Turn on Tap Mode (Timer)</string>
+    <string name="avg_error">You don\'t have any scores</string>
+    <string name="tap_text_start">Press and take into a square \n to start a timer</string>
+    <string name="ready">Ready?</string>
 </resources>

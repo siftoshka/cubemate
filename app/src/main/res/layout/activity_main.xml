@@ -35,8 +35,9 @@
         android:background="@color/mainBackground"
         android:fontFamily="@font/regular"
         app:itemIconSize="22dp"
+        android:longClickable="false"
         app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@color/dark_900"
+        app:itemTextColor="@drawable/selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 

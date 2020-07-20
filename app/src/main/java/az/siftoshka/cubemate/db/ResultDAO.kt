@@ -15,7 +15,7 @@ interface ResultDAO {
     @Query("DELETE FROM results_table")
     suspend fun deleteAllResults()
 
-    @Query("SELECT * FROM results_table ORDER BY timeInSeconds DESC")
+    @Query("SELECT * FROM results_table ORDER BY timeInSeconds ASC")
     fun getAllResultsByTime(): LiveData<List<Result>>
 
     @Query("SELECT * FROM results_table ORDER BY timestamp DESC")

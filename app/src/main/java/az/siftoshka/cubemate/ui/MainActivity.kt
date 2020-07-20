@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        firstOpen()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             window.navigationBarColor = resources.getColor(R.color.mainBackground)
 
 
-//        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
@@ -51,5 +51,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun hideStatusBar() {
         window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
+    private fun firstOpen() {
+        val prefs = getSharedPreferences("First-Open", Context.MODE_PRIVATE)
+        val launch = prefs.getInt("Launch", 0)
+        if (launch != 101) {
+            val editor = getSharedPreferences(
+                "First-Open",
+                Context.MODE_PRIVATE
+            ).edit()
+            editor.putInt("Launch", 100)
+            editor.apply()
+        }
     }
 }
