@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
-import com.google.android.material.snackbar.Snackbar
+import az.siftoshka.cubemate.utils.MessageListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer.animationImage
@@ -33,6 +33,7 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private var sensorManager: SensorManager? = null
     private var lightSensor: Sensor? = null
+    private var messageListener: MessageListener? = null
 
     private var tapMode = 0
     private var alreadyReady = false
@@ -42,12 +43,18 @@ class TimerFragment : Fragment(), SensorEventListener {
     private var isReady = false
     private var isStarted = false
     private var isActive = false
+    private var isEnoughLight = false
 
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firstOpen()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MessageListener) messageListener = context
     }
 
     override fun onCreateView(
@@ -75,8 +82,9 @@ class TimerFragment : Fragment(), SensorEventListener {
     private fun getLightSensor(event: SensorEvent?) {
         val value = event?.values?.get(0)?.toInt()
         if (value != null && tapMode == 100) {
+            if (value > currentMin(value)) isEnoughLight = true
             test?.text = value.toString()
-            if (value <= currentMin(value)) {
+            if (value <= currentMin(value) && isEnoughLight) {
                 when (isActive && isReady) {
                     true -> {
                         Timber.d("FINISH")
@@ -123,7 +131,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         alreadyStart = false
         alreadyFinish = false
         if (tapMode != 101) {
-            Snackbar.make(timerLayout, "Your score ${result.timeInSeconds} seconds is saved", Snackbar.LENGTH_SHORT).show()
+            messageListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
             tryAgainButton?.visibility = View.VISIBLE
             animationImage?.visibility = View.GONE
@@ -135,7 +143,7 @@ class TimerFragment : Fragment(), SensorEventListener {
                 sensorText.visibility = View.VISIBLE
             }
         } else {
-            Snackbar.make(timerLayoutAlt, "Your score ${result.timeInSeconds} seconds is saved", Snackbar.LENGTH_SHORT).show()
+            messageListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
         }
     }
@@ -167,7 +175,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         val elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.base)
         chronometer.stop()
         if (type == null) type = "3x3"
-        val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type)
+        val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
         chronometer.textSize = 50F
@@ -177,8 +185,8 @@ class TimerFragment : Fragment(), SensorEventListener {
     private fun currentMin(value: Int?): Int {
         return when (value) {
             in 30..1000 -> 20
-            in 1000..10000 -> 50
-            in 10000..30000 -> 100
+            in 1000..10000 -> 10
+            in 10000..50000 -> 1000
             else -> 20
         }
     }
@@ -219,7 +227,8 @@ class TimerFragment : Fragment(), SensorEventListener {
             val elapsedMillis = (SystemClock.elapsedRealtime() - sChronometer.base)
             sChronometer.stop()
             if (type == null) type = "3x3"
-            val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type)
+            val result =
+                Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
             sChronometer.base = SystemClock.elapsedRealtime()
             sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
             sChronometer.textSize = 50F
@@ -250,6 +259,17 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (lightSensor == null) unsupportedSensor()
         lightSensor.also {
             sensorManager!!.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+        }
+    }
+
+    private fun typePriority(type: String?): Int {
+        return when (type) {
+            "3x3" -> 3
+            "4x4" -> 4
+            "5x5" -> 5
+            "6x6" -> 6
+            "7x7" -> 7
+            else -> 3
         }
     }
 

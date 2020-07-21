@@ -187,7 +187,7 @@
                         android:fontFamily="@font/regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:text="@string/tap_mode_text"
+                        android:text="@string/sensor_mode_text"
                         android:textColor="@color/dark_600"
                         android:textSize="16sp" />
 
@@ -222,22 +222,22 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:layout_gravity="center"
-                        android:padding="1dp"
                         android:layout_weight=".28"
                         android:background="@drawable/spinner_bg"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="1dp">
 
                         <Spinner
                             android:id="@+id/spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:popupBackground="@color/gray"
                             android:background="@android:color/transparent"
                             android:gravity="center"
+                            android:popupBackground="@color/gray"
                             android:spinnerMode="dropdown" />
 
                         <ImageView
@@ -247,6 +247,54 @@
                             android:src="@drawable/ic_repeat" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="@string/sort_by"
+                        android:textColor="@color/dark_600"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight=".28"
+                        android:background="@drawable/spinner_bg"
+                        android:orientation="horizontal"
+                        android:padding="1dp">
+
+                        <Spinner
+                            android:id="@+id/spinnerSort"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:popupBackground="@color/gray"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_repeat" />
+                    </LinearLayout>
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -391,7 +439,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
-                android:paddingBottom="5dp">
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"

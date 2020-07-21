@@ -11,12 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import az.siftoshka.cubemate.R
+import az.siftoshka.cubemate.utils.MessageListener
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_timer_alt.*
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity(R.layout.activity_main), MessageListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,5 +67,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             editor.putInt("Launch", 100)
             editor.apply()
         }
+    }
+
+    override fun showMessage(message: String) {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+        snackbar.anchorView = bottomNavigationView
+        snackbar.show()
     }
 }

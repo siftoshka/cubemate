@@ -1,7 +1,6 @@
 package az.siftoshka.cubemate.ui.fragments
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.net.Uri
@@ -11,19 +10,17 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_FREEPIK
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_OKTAY
 import az.siftoshka.cubemate.utils.Constants.DEV_GITHUB
 import az.siftoshka.cubemate.utils.Constants.DEV_INSTAGRAM
 import az.siftoshka.cubemate.utils.Constants.DEV_TELEGRAM
 import az.siftoshka.cubemate.utils.Constants.FLATICON
-import az.siftoshka.cubemate.R
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,27 +40,28 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spannableCreditFreepik()
         modeSwitcher()
         spinner()
+        spinnerSort()
     }
 
     private fun modeSwitcher() {
         val prefs = requireContext().getSharedPreferences("Tap-Mode", MODE_PRIVATE)
         val tapMode = prefs.getInt("Tap", 0)
 
-        modeSwitcher.isChecked = tapMode == 101
+        modeSwitcher.isChecked = tapMode == 100
         modeSwitcher.setOnCheckedChangeListener { _, b ->
             if (b) {
                 val editor = requireContext().getSharedPreferences(
                     "Tap-Mode",
                     MODE_PRIVATE
                 ).edit()
-                editor.putInt("Tap", 101)
+                editor.putInt("Tap", 100)
                 editor.apply()
             } else {
                 val editor = requireContext().getSharedPreferences(
                     "Tap-Mode",
                     MODE_PRIVATE
                 ).edit()
-                editor.putInt("Tap", 100)
+                editor.putInt("Tap", 101)
                 editor.apply()
             }
         }
@@ -165,10 +163,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val prefs = requireContext().getSharedPreferences("Cube-Type", MODE_PRIVATE)
         val spinnerItem = prefs.getString("Type", null)
         GlobalScope.launch {
-            spinner.setSelection(types.indexOf(spinnerItem))
+            spinner?.setSelection(types.indexOf(spinnerItem))
         }
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinner?.adapter = adapter
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -185,7 +183,36 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+    }
 
+    private fun spinnerSort() {
+        val types = resources.getStringArray(R.array.Sort)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_txt, types)
+        val prefs = requireContext().getSharedPreferences("Sort-Type", MODE_PRIVATE)
+        val spinnerItem = prefs.getString("Type", null)
+        GlobalScope.launch {
+            Timber.d("$spinnerItem")
+            spinnerSort?.setSelection(types.indexOf(spinnerItem))
+        }
+        spinnerSort?.adapter = adapter
+        spinnerSort?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val editor = requireContext().getSharedPreferences(
+                    "Sort-Type",
+                    MODE_PRIVATE
+                ).edit()
+                editor.putString("Type", types[position])
+                editor.putInt("Type Pos", position)
+                editor.apply()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 
 }

@@ -21,7 +21,7 @@ interface ResultDAO {
     @Query("SELECT * FROM results_table ORDER BY timestamp DESC")
     fun getAllResultsByDate(): LiveData<List<Result>>
 
-    @Query("SELECT * FROM results_table ORDER BY type DESC")
+    @Query("SELECT * FROM results_table ORDER BY typeNumber ASC")
     fun getAllResultsByType(): LiveData<List<Result>>
 
     @Query("SELECT AVG(timeInSeconds) FROM results_table")

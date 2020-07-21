@@ -52,10 +52,21 @@
                     android:textColor="@color/dark_800"
                     android:textSize="26sp" />
 
-                <com.github.mikephil.charting.charts.LineChart
+                <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/mainChart"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="50dp"
                     android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/dataEmptyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/chart_empty_hint"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="22sp"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
 
@@ -72,6 +83,35 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:adjustViewBounds="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/empty" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/empty_list_hint"
+            android:textColor="@color/dark_600"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
