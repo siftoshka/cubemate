@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
-import az.siftoshka.cubemate.utils.MessageListener
+import az.siftoshka.cubemate.utils.MainListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer.animationImage
@@ -33,7 +33,7 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private var sensorManager: SensorManager? = null
     private var lightSensor: Sensor? = null
-    private var messageListener: MessageListener? = null
+    private var mainListener: MainListener? = null
 
     private var tapMode = 0
     private var alreadyReady = false
@@ -47,14 +47,9 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        firstOpen()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MessageListener) messageListener = context
+        if (context is MainListener) mainListener = context
     }
 
     override fun onCreateView(
@@ -131,7 +126,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         alreadyStart = false
         alreadyFinish = false
         if (tapMode != 101) {
-            messageListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
+            mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
             tryAgainButton?.visibility = View.VISIBLE
             animationImage?.visibility = View.GONE
@@ -143,7 +138,7 @@ class TimerFragment : Fragment(), SensorEventListener {
                 sensorText.visibility = View.VISIBLE
             }
         } else {
-            messageListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
+            mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
         }
     }
@@ -236,23 +231,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         }
     }
 
-    private fun firstOpen() {
-        val prefs = requireContext().getSharedPreferences("First-Open", Context.MODE_PRIVATE)
-        val launch = prefs.getInt("Launch", 0)
-        if (launch == 100) {
-            findNavController().navigate(R.id.action_timerFragment_to_startFragment)
-            val editor = requireContext().getSharedPreferences(
-                "Tap-Mode",
-                Context.MODE_PRIVATE
-            ).edit()
-            editor.putInt("Tap", 100)
-            editor.apply()
-        }
-
-    }
-
     private fun registerSensor() {
-        Timber.d("ON RESUME")
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager!!.getDefaultSensor(TYPE_LIGHT)
 

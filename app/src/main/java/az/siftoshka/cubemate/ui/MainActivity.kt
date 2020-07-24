@@ -1,6 +1,6 @@
 package az.siftoshka.cubemate.ui
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -11,15 +11,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import az.siftoshka.cubemate.R
-import az.siftoshka.cubemate.utils.MessageListener
+import az.siftoshka.cubemate.utils.Constants.PREF_LAUNCH
+import az.siftoshka.cubemate.utils.Constants.PREF_MODE
+import az.siftoshka.cubemate.utils.MainListener
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_timer_alt.*
-import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main), MessageListener {
+class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +38,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MessageListener 
 
         navController
             .addOnDestinationChangedListener { controller, destination, arguments ->
-                val prefs = getSharedPreferences("Tap-Mode", Context.MODE_PRIVATE)
-                val tapMode = prefs.getInt("Tap", 0)
+                val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
                 when (destination.id) {
                     R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {
-                        Timber.d("NAVBAR")
                         if (destination.id == R.id.timerFragment && tapMode == 100) hideStatusBar()
                         else showStatusBar()
                         bottomNavigationView.visibility = View.VISIBLE
@@ -57,20 +59,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MessageListener 
     }
 
     private fun firstOpen() {
-        val prefs = getSharedPreferences("First-Open", Context.MODE_PRIVATE)
-        val launch = prefs.getInt("Launch", 0)
+        val launch = sharedPreferences.getInt(PREF_LAUNCH, 0)
         if (launch != 101) {
-            val editor = getSharedPreferences(
-                "First-Open",
-                Context.MODE_PRIVATE
-            ).edit()
-            editor.putInt("Launch", 100)
-            editor.apply()
+            sharedPreferences.edit()
+                .putInt(PREF_LAUNCH, 100)
+                .apply()
         }
     }
 
     override fun showMessage(message: String) {
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+        val snackbar =
+            Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
         snackbar.anchorView = bottomNavigationView
         snackbar.show()
     }

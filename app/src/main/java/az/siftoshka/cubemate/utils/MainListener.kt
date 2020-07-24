@@ -1,6 +1,6 @@
 package az.siftoshka.cubemate.utils
 
-interface MessageListener {
+interface MainListener {
 
     fun showMessage(message: String)
 

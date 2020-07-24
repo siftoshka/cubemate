@@ -1,8 +1,8 @@
 package az.siftoshka.cubemate.ui.fragments
 
 import android.content.ActivityNotFoundException
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -14,20 +14,35 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
+import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import az.siftoshka.cubemate.utils.Constants
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_FREEPIK
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_OKTAY
 import az.siftoshka.cubemate.utils.Constants.DEV_GITHUB
 import az.siftoshka.cubemate.utils.Constants.DEV_INSTAGRAM
 import az.siftoshka.cubemate.utils.Constants.DEV_TELEGRAM
 import az.siftoshka.cubemate.utils.Constants.FLATICON
+import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
+import az.siftoshka.cubemate.utils.Constants.PREF_MODE
+import az.siftoshka.cubemate.utils.Constants.PREF_SORT
+import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
+
+    private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
@@ -36,6 +51,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         githubContact.setOnClickListener { showGithubPage() }
         instagramContact.setOnClickListener { showInstagramPage() }
         rateButton.setOnClickListener { showGooglePlay() }
+        privacyPolicy.setOnClickListener { showPrivacyPolicyScreen() }
+        termsOfService.setOnClickListener { showTermsOfServiceScreen() }
+        license.setOnClickListener { showLicenses() }
         spannableCreditOktay()
         spannableCreditFreepik()
         modeSwitcher()
@@ -44,25 +62,18 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun modeSwitcher() {
-        val prefs = requireContext().getSharedPreferences("Tap-Mode", MODE_PRIVATE)
-        val tapMode = prefs.getInt("Tap", 0)
+        val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
 
         modeSwitcher.isChecked = tapMode == 100
         modeSwitcher.setOnCheckedChangeListener { _, b ->
             if (b) {
-                val editor = requireContext().getSharedPreferences(
-                    "Tap-Mode",
-                    MODE_PRIVATE
-                ).edit()
-                editor.putInt("Tap", 100)
-                editor.apply()
+                sharedPreferences.edit()
+                    .putInt(PREF_MODE, 100)
+                    .apply()
             } else {
-                val editor = requireContext().getSharedPreferences(
-                    "Tap-Mode",
-                    MODE_PRIVATE
-                ).edit()
-                editor.putInt("Tap", 101)
-                editor.apply()
+                sharedPreferences.edit()
+                    .putInt(PREF_MODE, 101)
+                    .apply()
             }
         }
     }
@@ -160,8 +171,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun spinner() {
         val types = resources.getStringArray(R.array.Types)
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_txt, types)
-        val prefs = requireContext().getSharedPreferences("Cube-Type", MODE_PRIVATE)
-        val spinnerItem = prefs.getString("Type", null)
+        val spinnerItem = sharedPreferences.getString(PREF_CUBE, null)
         GlobalScope.launch {
             spinner?.setSelection(types.indexOf(spinnerItem))
         }
@@ -169,16 +179,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
-                val editor = requireContext().getSharedPreferences(
-                    "Cube-Type",
-                    MODE_PRIVATE
-                ).edit()
-                editor.putString("Type", types[position])
-                editor.apply()
+                sharedPreferences.edit()
+                    .putString(PREF_CUBE, types[position])
+                    .apply()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -188,8 +195,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun spinnerSort() {
         val types = resources.getStringArray(R.array.Sort)
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_txt, types)
-        val prefs = requireContext().getSharedPreferences("Sort-Type", MODE_PRIVATE)
-        val spinnerItem = prefs.getString("Type", null)
+        val spinnerItem = sharedPreferences.getString(PREF_SORT, null)
         GlobalScope.launch {
             Timber.d("$spinnerItem")
             spinnerSort?.setSelection(types.indexOf(spinnerItem))
@@ -198,21 +204,42 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spinnerSort?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
-                val editor = requireContext().getSharedPreferences(
-                    "Sort-Type",
-                    MODE_PRIVATE
-                ).edit()
-                editor.putString("Type", types[position])
-                editor.putInt("Type Pos", position)
-                editor.apply()
+                sharedPreferences.edit()
+                    .putString(PREF_SORT, types[position])
+                    .putInt(PREF_SORT_POS, position)
+                    .apply()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+    }
+
+    private fun showPrivacyPolicyScreen() {
+        sharedPreferences.edit()
+            .putInt(Constants.PREF_WEB, 101)
+            .apply().also {
+                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
+            }
+    }
+
+    private fun showTermsOfServiceScreen() {
+        sharedPreferences.edit()
+            .putInt(Constants.PREF_WEB, 102)
+            .apply().also {
+                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
+            }
+    }
+
+    private fun showLicenses() {
+        sharedPreferences.edit()
+            .putInt(Constants.PREF_WEB, 103)
+            .apply().also {
+                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
+            }
     }
 
 }

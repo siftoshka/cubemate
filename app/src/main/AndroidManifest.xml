@@ -5,7 +5,10 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
 
     <application
         android:name=".App"
@@ -19,10 +22,10 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme"
-            tools:ignore="LockedOrientationActivity"
-            android:launchMode="singleTask">
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

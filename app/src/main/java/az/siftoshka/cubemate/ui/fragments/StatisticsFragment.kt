@@ -1,6 +1,6 @@
 package az.siftoshka.cubemate.ui.fragments
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.adapters.StatAdapter
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -19,12 +20,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.cToolbar
 import kotlinx.android.synthetic.main.fragment_statistics.*
-
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var statAdapter: StatAdapter
 
@@ -33,8 +37,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         cToolbar.setCollapsedTitleTextAppearance(R.style.CollapsingCollapsed)
         setupRecyclerView()
         observeAverageResult()
-        val prefs = requireContext().getSharedPreferences("Sort-Type", Context.MODE_PRIVATE)
-        when (prefs.getInt("Type Pos", 0)) {
+        when (sharedPreferences.getInt(PREF_SORT_POS, 0)) {
             0 -> sortByDate()
             1 -> sortByTime()
             2 -> sortByType()
@@ -107,7 +110,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         results.asReversed().forEachIndexed { index, result ->
             entries.add(BarEntry(index.toFloat(), result.timeInSeconds))
         }
-        if(entries.isEmpty()) {
+        if(entries.isEmpty() || entries.size < 5) {
             dataEmptyText.visibility = View.VISIBLE
             mainChart.visibility = View.GONE
         }
