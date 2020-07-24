@@ -81,3 +81,9 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 
+# lint/reports/
+/app/src/main/assets/licenses_output.html
+/app/src/main/assets/privacy_policy.html
+/app/src/main/assets/terms_of_service.html
+/app/src/main/assets/PrivacyPolicy.txt
+
