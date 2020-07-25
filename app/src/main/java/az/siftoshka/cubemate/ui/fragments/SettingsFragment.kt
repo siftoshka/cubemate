@@ -64,15 +64,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun modeSwitcher() {
         val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
 
-        modeSwitcher.isChecked = tapMode == 100
+        modeSwitcher.isChecked = tapMode == 101
         modeSwitcher.setOnCheckedChangeListener { _, b ->
             if (b) {
                 sharedPreferences.edit()
-                    .putInt(PREF_MODE, 100)
+                    .putInt(PREF_MODE, 101)
                     .apply()
             } else {
                 sharedPreferences.edit()
-                    .putInt(PREF_MODE, 101)
+                    .putInt(PREF_MODE, 100)
                     .apply()
             }
         }

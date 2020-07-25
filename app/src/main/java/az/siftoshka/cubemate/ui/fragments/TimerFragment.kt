@@ -2,6 +2,7 @@ package az.siftoshka.cubemate.ui.fragments
 
 import android.content.Context
 import android.content.Context.SENSOR_SERVICE
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.Sensor.TYPE_LIGHT
 import android.hardware.SensorEvent
@@ -19,6 +20,8 @@ import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
+import az.siftoshka.cubemate.utils.Constants.PREF_MODE
 import az.siftoshka.cubemate.utils.MainListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -26,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_timer.animationImage
 import kotlinx.android.synthetic.main.fragment_timer_alt.*
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -45,6 +49,9 @@ class TimerFragment : Fragment(), SensorEventListener {
     private var isActive = false
     private var isEnoughLight = false
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     private val viewModel: MainViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -57,17 +64,15 @@ class TimerFragment : Fragment(), SensorEventListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val prefs = requireContext().getSharedPreferences("Tap-Mode", Context.MODE_PRIVATE)
-        tapMode = prefs.getInt("Tap", 0)
+        tapMode = sharedPreferences.getInt(PREF_MODE, 0)
 
-        return if (tapMode == 101) inflater.inflate(R.layout.fragment_timer_alt, container, false)
-        else inflater.inflate(R.layout.fragment_timer, container, false)
+        return if (tapMode == 101) inflater.inflate(R.layout.fragment_timer, container, false)
+        else inflater.inflate(R.layout.fragment_timer_alt, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getTapModeFunctionality()
-        val prefs = requireContext().getSharedPreferences("Cube-Type", Context.MODE_PRIVATE)
-        type = prefs.getString("Type", null)
+        type = sharedPreferences.getString(PREF_CUBE, null)
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -76,7 +81,7 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private fun getLightSensor(event: SensorEvent?) {
         val value = event?.values?.get(0)?.toInt()
-        if (value != null && tapMode == 100) {
+        if (value != null && tapMode == 101) {
             if (value > currentMin(value)) isEnoughLight = true
             test?.text = value.toString()
             if (value <= currentMin(value) && isEnoughLight) {
@@ -104,7 +109,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     private fun getTapModeFunctionality() {
-        if (tapMode == 101) {
+        if (tapMode != 101) {
             animationImage.setOnTouchListener { v, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> if (!isStarted) readyStage()
@@ -125,7 +130,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         alreadyReady = false
         alreadyStart = false
         alreadyFinish = false
-        if (tapMode != 101) {
+        if (tapMode == 101) {
             mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
             tryAgainButton?.visibility = View.VISIBLE
@@ -253,7 +258,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     private fun unsupportedSensor() {
-        if (tapMode != 101)
+        if (tapMode == 101)
             sensorText?.text = resources.getString(R.string.unsupported)
     }
 

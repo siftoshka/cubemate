@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
                 val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
                 when (destination.id) {
                     R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {
-                        if (destination.id == R.id.timerFragment && tapMode == 100) hideStatusBar()
+                        if (destination.id == R.id.timerFragment && tapMode == 101) hideStatusBar()
                         else showStatusBar()
                         bottomNavigationView.visibility = View.VISIBLE
                     }
