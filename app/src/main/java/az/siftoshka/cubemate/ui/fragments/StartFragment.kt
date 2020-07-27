@@ -23,15 +23,11 @@ class StartFragment : Fragment(R.layout.fragment_start) {
     }
 
     private fun firstLaunch() {
-        val launch = sharedPreferences.getInt(PREF_LAUNCH, 0)
-        if (launch != 101) {
-            button.setOnClickListener {
-                findNavController().navigate(R.id.action_startFragment_to_timerFragment)
-                sharedPreferences.edit()
-                    .putInt(PREF_LAUNCH, 101)
-                    .apply()
-            }
-        } else
+        button.setOnClickListener {
             findNavController().navigate(R.id.action_startFragment_to_timerFragment)
+            sharedPreferences.edit()
+                .putInt(PREF_LAUNCH, 101)
+                .apply()
+        }
     }
 }

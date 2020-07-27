@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
 
 
         bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+        bottomNavigationView.setOnNavigationItemReselectedListener { /**NOTHING**/ }
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 

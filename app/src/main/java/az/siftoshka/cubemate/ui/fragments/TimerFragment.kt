@@ -21,6 +21,7 @@ import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
+import az.siftoshka.cubemate.utils.Constants.PREF_LAUNCH
 import az.siftoshka.cubemate.utils.Constants.PREF_MODE
 import az.siftoshka.cubemate.utils.MainListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,6 +74,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getTapModeFunctionality()
         type = sharedPreferences.getString(PREF_CUBE, null)
+        firstLaunch()
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -255,6 +257,12 @@ class TimerFragment : Fragment(), SensorEventListener {
             "7x7" -> 7
             else -> 3
         }
+    }
+
+    private fun firstLaunch() {
+      val launch = sharedPreferences.getInt(PREF_LAUNCH, 0)
+        if (launch != 101)
+            findNavController().navigate(R.id.action_timerFragment_to_startFragment)
     }
 
     private fun unsupportedSensor() {
