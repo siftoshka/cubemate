@@ -23,6 +23,7 @@ import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
 import az.siftoshka.cubemate.utils.Constants.PREF_LAUNCH
 import az.siftoshka.cubemate.utils.Constants.PREF_MODE
+import az.siftoshka.cubemate.utils.Converter
 import az.siftoshka.cubemate.utils.MainListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -73,6 +74,8 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getTapModeFunctionality()
+        showRecentResult()
+        showBestResult()
         type = sharedPreferences.getString(PREF_CUBE, null)
         firstLaunch()
     }
@@ -85,7 +88,6 @@ class TimerFragment : Fragment(), SensorEventListener {
         val value = event?.values?.get(0)?.toInt()
         if (value != null && tapMode == 101) {
             if (value > currentMin(value)) isEnoughLight = true
-            test?.text = value.toString()
             if (value <= currentMin(value) && isEnoughLight) {
                 when (isActive && isReady) {
                     true -> {
@@ -256,6 +258,54 @@ class TimerFragment : Fragment(), SensorEventListener {
             "6x6" -> 6
             "7x7" -> 7
             else -> 3
+        }
+    }
+
+    private fun showRecentResult() {
+        if (tapMode != 101) {
+            viewModel.recentResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it != null) {
+                    recentResultText.visibility = View.VISIBLE
+                    recentResultLayout.visibility = View.VISIBLE
+                    scoreTextRecent.text = it.timeInSeconds.toString()
+                    typeTextRecent.text = it.type
+                    dateTextRecent.text = Converter.timeToDate(it.timestamp)
+                }
+            })
+        } else {
+            viewModel.recentResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it != null) {
+                    sRecentResultText.visibility = View.VISIBLE
+                    sRecentResultLayout.visibility = View.VISIBLE
+                    sScoreTextRecent.text = it.timeInSeconds.toString()
+                    sTypeTextRecent.text = it.type
+                    sDateTextRecent.text = Converter.timeToDate(it.timestamp)
+                }
+            })
+        }
+    }
+
+    private fun showBestResult() {
+        if (tapMode != 101) {
+            viewModel.bestResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it != null) {
+                    bestResultText.visibility = View.VISIBLE
+                    bestResultLayout.visibility = View.VISIBLE
+                    scoreTextBest.text = it.timeInSeconds.toString()
+                    typeTextBest.text = it.type
+                    dateTextBest.text = Converter.timeToDate(it.timestamp)
+                }
+            })
+        } else {
+            viewModel.bestResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it != null) {
+                    sBestResultText.visibility = View.VISIBLE
+                    sBestResultLayout.visibility = View.VISIBLE
+                    sScoreTextBest.text = it.timeInSeconds.toString()
+                    sTypeTextBest.text = it.type
+                    sDateTextBest.text = Converter.timeToDate(it.timestamp)
+                }
+            })
         }
     }
 

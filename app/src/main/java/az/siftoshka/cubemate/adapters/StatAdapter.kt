@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
+import az.siftoshka.cubemate.utils.Converter
 import kotlinx.android.synthetic.main.item_stat.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,12 +57,7 @@ class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerVi
     override fun onBindViewHolder(holder: StatViewHolder, position: Int) {
         val stat = diff.currentList[position]
         holder.itemView.apply {
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = stat.timestamp
-            }
-            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            dateText.text = dateFormat.format(calendar.time)
-
+            dateText.text = Converter.timeToDate(stat.timestamp)
             scoreText.text = "${stat.timeInSeconds} sec"
             typeText.text = stat.type
             mClickListener = clickListener

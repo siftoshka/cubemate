@@ -2,6 +2,7 @@ package az.siftoshka.cubemate.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ResultDAO {
@@ -16,20 +17,20 @@ interface ResultDAO {
     suspend fun deleteAllResults()
 
     @Query("SELECT * FROM results_table ORDER BY timeInSeconds ASC")
-    fun getAllResultsByTime(): LiveData<List<Result>>
+    fun getAllResultsByTime(): Flow<List<Result>>
 
     @Query("SELECT * FROM results_table ORDER BY timestamp DESC")
-    fun getAllResultsByDate(): LiveData<List<Result>>
+    fun getAllResultsByDate(): Flow<List<Result>>
 
     @Query("SELECT * FROM results_table ORDER BY typeNumber ASC")
-    fun getAllResultsByType(): LiveData<List<Result>>
+    fun getAllResultsByType(): Flow<List<Result>>
 
     @Query("SELECT AVG(timeInSeconds) FROM results_table")
-    fun getAvgResult(): LiveData<Float>
+    fun getAvgResult(): Flow<Float>
 
     @Query("SELECT * FROM results_table ORDER BY timeInSeconds ASC LIMIT 1")
-    fun getBestResult(): LiveData<Result>
+    fun getBestResult(): Flow<Result>
 
     @Query("SELECT * FROM results_table ORDER BY timestamp DESC LIMIT 1")
-    fun getRecentResult(): LiveData<Result>
+    fun getRecentResult(): Flow<Result>
 }

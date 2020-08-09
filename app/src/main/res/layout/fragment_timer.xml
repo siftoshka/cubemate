@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
-    android:orientation="vertical"
     android:keepScreenOn="true"
+    android:orientation="vertical"
     tools:context=".ui.fragments.TimerFragment">
 
     <LinearLayout
@@ -47,18 +47,6 @@
         android:textColor="@color/dark_800"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/semibold"
-        android:gravity="center_horizontal"
-        android:text="TEST"
-        android:textColor="@color/dark_800"
-        android:textSize="20sp" />
-
     <Chronometer
         android:id="@+id/sChronometer"
         android:layout_width="match_parent"
@@ -81,5 +69,194 @@
         android:visibility="gone"
         app:icon="@drawable/ic_repeat"
         app:iconSize="20dp" />
+
+
+    <TextView
+        android:id="@+id/sRecentResultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:elevation="14dp"
+        android:fontFamily="@font/regular"
+        android:text="Recent Result ⏰"
+        android:textColor="@color/dark_800"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/sRecentResultLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/round_layout"
+        android:backgroundTint="@color/gray"
+        android:elevation="14dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:text="@string/your_result"
+                android:textColor="@color/dark_600"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/sScoreTextRecent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="20sp"
+                tools:text="24.567 s" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:text="@string/cube_mode"
+                android:textColor="@color/dark_600"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sTypeTextRecent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="14sp"
+                tools:text="3x3" />
+
+            <TextView
+                android:id="@+id/sDateTextRecent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/semibold"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="16sp"
+                tools:text="04.07.1984" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sBestResultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:elevation="14dp"
+        android:fontFamily="@font/regular"
+        android:text="Best Result ⭐"
+        android:textColor="@color/dark_800"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/sBestResultLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/round_layout"
+        android:backgroundTint="@color/gray"
+        android:elevation="14dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:text="@string/your_result"
+                android:textColor="@color/dark_600"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/sScoreTextBest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="20sp"
+                tools:text="24.567 s" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:text="@string/cube_mode"
+                android:textColor="@color/dark_600"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sTypeTextBest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="14sp"
+                tools:text="3x3" />
+
+            <TextView
+                android:id="@+id/sDateTextBest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/semibold"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textColor="@color/dark_600"
+                android:textSize="16sp"
+                tools:text="04.07.1984" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import az.siftoshka.cubemate.adapters.StatAdapter
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
+import az.siftoshka.cubemate.utils.Converter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -47,7 +48,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner, Observer {
-        avgScore?.text = it?.toString()
+        avgScore?.text = Converter.roundOffDecimal(it).toString()
         if (it == null) {
             avgScore?.textSize = 14F
             avgScore?.setTextColor(resources.getColor(R.color.gray))
