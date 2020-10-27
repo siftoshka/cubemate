@@ -13,7 +13,7 @@ class Converter {
             return df.format(number).toFloat()
         }
 
-        fun timeToDate(timestamp: Long) : String {
+        fun timeToDate(timestamp: Long): String {
             val calendar = Calendar.getInstance().apply { timeInMillis = timestamp }
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             return dateFormat.format(calendar.time)

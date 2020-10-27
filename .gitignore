@@ -45,6 +45,7 @@ app/google-services.json
 .idea/gradle.xml
 .idea/assetWizardSettings.xml
 .idea/dictionaries
+.idea/compiler.xml
 .idea/libraries
 # Android Studio 3 in .gitignore file.
 .idea/caches

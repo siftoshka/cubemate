@@ -30,6 +30,4 @@ class WebFragment : Fragment(R.layout.fragment_web) {
             103 -> web?.loadUrl(URL_LICENSES)
         }
     }
-
-
 }

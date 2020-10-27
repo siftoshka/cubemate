@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firstOpen()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            window.navigationBarColor = resources.getColor(R.color.mainBackground)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { window.navigationBarColor = resources.getColor(R.color.mainBackground, null) }
 
 
         bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
@@ -42,8 +41,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
                 val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
                 when (destination.id) {
                     R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {
-                        if (destination.id == R.id.timerFragment && tapMode == 101) hideStatusBar()
-                        else showStatusBar()
+                        if (destination.id == R.id.timerFragment && tapMode == 101) { hideStatusBar() }
+                        else { showStatusBar() }
                         bottomNavigationView.visibility = View.VISIBLE
                     }
                     else -> bottomNavigationView.visibility = View.GONE
@@ -51,13 +50,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
             }
     }
 
-    private fun showStatusBar() {
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
+    private fun showStatusBar() = window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-    private fun hideStatusBar() {
-        window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
+    private fun hideStatusBar() = window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
     private fun firstOpen() {
         val launch = sharedPreferences.getInt(PREF_LAUNCH, 0)
@@ -69,8 +64,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
     }
 
     override fun showMessage(message: String) {
-        val snackbar =
-            Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
         snackbar.anchorView = bottomNavigationView
         snackbar.show()
     }

@@ -33,7 +33,6 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class TimerFragment : Fragment(), SensorEventListener {
 
@@ -61,15 +60,11 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (context is MainListener) mainListener = context
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         tapMode = sharedPreferences.getInt(PREF_MODE, 0)
 
-        return if (tapMode == 101) inflater.inflate(R.layout.fragment_timer, container, false)
-        else inflater.inflate(R.layout.fragment_timer_alt, container, false)
+        return if (tapMode == 101) { inflater.inflate(R.layout.fragment_timer, container, false) }
+        else { inflater.inflate(R.layout.fragment_timer_alt, container, false) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,7 +76,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == TYPE_LIGHT) getLightSensor(event)
+        if (event?.sensor?.type == TYPE_LIGHT) { getLightSensor(event) }
     }
 
     private fun getLightSensor(event: SensorEvent?) {
@@ -118,7 +113,7 @@ class TimerFragment : Fragment(), SensorEventListener {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> if (!isStarted) readyStage()
                     MotionEvent.ACTION_UP -> {
-                        if (isStarted) finishStage()
+                        if (isStarted) { finishStage() }
                         else {
                             startStage()
                             v.performClick()
@@ -230,9 +225,8 @@ class TimerFragment : Fragment(), SensorEventListener {
             animationImage?.playAnimation()
             val elapsedMillis = (SystemClock.elapsedRealtime() - sChronometer.base)
             sChronometer.stop()
-            if (type == null) type = "3x3"
-            val result =
-                Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
+            if (type == null) { type = "3x3" }
+            val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
             sChronometer.base = SystemClock.elapsedRealtime()
             sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
             sChronometer.textSize = 50F
@@ -244,10 +238,8 @@ class TimerFragment : Fragment(), SensorEventListener {
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager!!.getDefaultSensor(TYPE_LIGHT)
 
-        if (lightSensor == null) unsupportedSensor()
-        lightSensor.also {
-            sensorManager!!.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
-        }
+        if (lightSensor == null) { unsupportedSensor() }
+        lightSensor.let { sensorManager!!.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST) }
     }
 
     private fun typePriority(type: String?): Int {
@@ -311,13 +303,11 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private fun firstLaunch() {
       val launch = sharedPreferences.getInt(PREF_LAUNCH, 0)
-        if (launch != 101)
-            findNavController().navigate(R.id.action_timerFragment_to_startFragment)
+        if (launch != 101) { findNavController().navigate(R.id.action_timerFragment_to_startFragment) }
     }
 
     private fun unsupportedSensor() {
-        if (tapMode == 101)
-            sensorText?.text = resources.getString(R.string.unsupported)
+        if (tapMode == 101) { sensorText?.text = resources.getString(R.string.unsupported) }
     }
 
     override fun onResume() {

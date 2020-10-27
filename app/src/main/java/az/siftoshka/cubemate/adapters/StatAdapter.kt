@@ -41,13 +41,7 @@ class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerVi
     fun statisticList(list: List<Result>) = diff.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatViewHolder {
-        return StatViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_stat,
-                parent,
-                false
-            )
-        )
+        return StatViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_stat, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +52,7 @@ class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerVi
         val stat = diff.currentList[position]
         holder.itemView.apply {
             dateText.text = Converter.timeToDate(stat.timestamp)
-            scoreText.text = "${stat.timeInSeconds} sec"
+            scoreText.text = "${stat.timeInSeconds}"
             typeText.text = stat.type
             mClickListener = clickListener
             holder.itemView.setOnLongClickListener {

@@ -39,8 +39,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    private val viewModel: MainViewModel by viewModels()
-
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
@@ -177,17 +175,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         spinner?.adapter = adapter
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 sharedPreferences.edit()
                     .putString(PREF_CUBE, types[position])
                     .apply()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
@@ -202,18 +194,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         spinnerSort?.adapter = adapter
         spinnerSort?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 sharedPreferences.edit()
                     .putString(PREF_SORT, types[position])
                     .putInt(PREF_SORT_POS, position)
                     .apply()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
@@ -221,25 +207,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun showPrivacyPolicyScreen() {
         sharedPreferences.edit()
             .putInt(Constants.PREF_WEB, 101)
-            .apply().also {
-                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
-            }
+            .apply()
+            .let { findNavController().navigate(R.id.action_settingsFragment_to_webFragment) }
     }
 
     private fun showTermsOfServiceScreen() {
         sharedPreferences.edit()
             .putInt(Constants.PREF_WEB, 102)
-            .apply().also {
-                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
-            }
+            .apply()
+            .let { findNavController().navigate(R.id.action_settingsFragment_to_webFragment) }
     }
 
     private fun showLicenses() {
         sharedPreferences.edit()
             .putInt(Constants.PREF_WEB, 103)
-            .apply().also {
-                findNavController().navigate(R.id.action_settingsFragment_to_webFragment)
-            }
+            .apply()
+            .let { findNavController().navigate(R.id.action_settingsFragment_to_webFragment) }
     }
 
 }

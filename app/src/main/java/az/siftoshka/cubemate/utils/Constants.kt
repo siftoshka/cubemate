@@ -1,7 +1,6 @@
 package az.siftoshka.cubemate.utils
 
 object Constants {
-
     const val RESULTS_DATABASE_NAME = "results_db"
     const val SETTINGS_PREFERENCES = "settings_sp"
     const val PREF_MODE = "mode"

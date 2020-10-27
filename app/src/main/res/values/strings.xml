@@ -32,6 +32,8 @@
     <string name="empty_list_hint">Your list is empty!</string>
     <string name="sort_by">Sort by</string>
     <string name="chart_empty_hint">(No chart data is available)\n You need more than 5 results</string>
+    <string name="recent_result">Recent Result ⏰</string>
+    <string name="best_result">Best Result ⭐</string>
 
     <string-array name="Types">
         <item>3x3</item>

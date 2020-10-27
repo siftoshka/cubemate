@@ -58,33 +58,24 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun setupRecyclerView() = recyclerView.apply {
         statAdapter = StatAdapter(object : StatAdapter.StatItemClickListener {
-            override fun onPostClicked(result: Result) {
-                openDialog(result)
-            }
+            override fun onPostClicked(result: Result) { openDialog(result) }
         })
         adapter = statAdapter
-        layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     private fun openDialog(result: Result) {
-        val builder =
-            MaterialAlertDialogBuilder(requireContext(), R.style.AppCompatAlertDialogStyle)
+        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.AppCompatAlertDialogStyle)
         builder.setTitle("Delete Result")
         builder.setMessage("Are you sure?")
-        builder.setPositiveButton(android.R.string.yes) { _, _ ->
-            viewModel.deleteResult(result)
-        }
+        builder.setPositiveButton(android.R.string.yes) { _, _ -> viewModel.deleteResult(result) }
         builder.setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
 
     private fun sortByDate() {
         viewModel.resultsByDate.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()) emptyLayout.visibility = View.VISIBLE
+            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         })
@@ -92,7 +83,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun sortByTime() {
         viewModel.resultsByTime.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()) emptyLayout.visibility = View.VISIBLE
+            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         })
@@ -100,7 +91,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun sortByType() {
         viewModel.resultsByType.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()) emptyLayout.visibility = View.VISIBLE
+            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         })
@@ -108,14 +99,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun setBarChart(results: List<Result>) {
         val entries = ArrayList<BarEntry>()
-        results.asReversed().forEachIndexed { index, result ->
-            entries.add(BarEntry(index.toFloat(), result.timeInSeconds))
-        }
+        results.asReversed().forEachIndexed { index, result -> entries.add(BarEntry(index.toFloat(), result.timeInSeconds)) }
         if(entries.isEmpty() || entries.size < 5) {
             dataEmptyText.visibility = View.VISIBLE
             mainChart.visibility = View.GONE
-        }
-        else {
+        } else {
             dataEmptyText.visibility = View.GONE
             mainChart.visibility = View.VISIBLE
         }

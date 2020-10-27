@@ -21,8 +21,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideResultDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, ResultDatabase::class.java, RESULTS_DATABASE_NAME)
-            .build()
+        Room.databaseBuilder(context, ResultDatabase::class.java, RESULTS_DATABASE_NAME).build()
 
     @Singleton
     @Provides
@@ -30,6 +29,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideSettingsPreferences(@ApplicationContext app: Context): SharedPreferences =
-        app.getSharedPreferences(SETTINGS_PREFERENCES, MODE_PRIVATE)
+    fun provideSettingsPreferences(@ApplicationContext app: Context): SharedPreferences = app.getSharedPreferences(SETTINGS_PREFERENCES, MODE_PRIVATE)
 }
