@@ -229,7 +229,7 @@ class TimerFragment : Fragment(), SensorEventListener {
             val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
             sChronometer.base = SystemClock.elapsedRealtime()
             sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
-            sChronometer.textSize = 50F
+            sChronometer.textSize = 32F
             showMessage(result)
         }
     }
