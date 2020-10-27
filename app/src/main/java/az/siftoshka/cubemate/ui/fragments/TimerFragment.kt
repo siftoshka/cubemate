@@ -255,7 +255,7 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     private fun showRecentResult() {
         if (tapMode != 101) {
-            viewModel.recentResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.recentResult.observe(viewLifecycleOwner) {
                 if (it != null) {
                     recentResultText.visibility = View.VISIBLE
                     recentResultLayout.visibility = View.VISIBLE
@@ -263,9 +263,9 @@ class TimerFragment : Fragment(), SensorEventListener {
                     typeTextRecent.text = it.type
                     dateTextRecent.text = Converter.timeToDate(it.timestamp)
                 }
-            })
+            }
         } else {
-            viewModel.recentResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.recentResult.observe(viewLifecycleOwner) {
                 if (it != null) {
                     sRecentResultText.visibility = View.VISIBLE
                     sRecentResultLayout.visibility = View.VISIBLE
@@ -273,13 +273,13 @@ class TimerFragment : Fragment(), SensorEventListener {
                     sTypeTextRecent.text = it.type
                     sDateTextRecent.text = Converter.timeToDate(it.timestamp)
                 }
-            })
+            }
         }
     }
 
     private fun showBestResult() {
         if (tapMode != 101) {
-            viewModel.bestResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.bestResult.observe(viewLifecycleOwner) {
                 if (it != null) {
                     bestResultText.visibility = View.VISIBLE
                     bestResultLayout.visibility = View.VISIBLE
@@ -287,9 +287,9 @@ class TimerFragment : Fragment(), SensorEventListener {
                     typeTextBest.text = it.type
                     dateTextBest.text = Converter.timeToDate(it.timestamp)
                 }
-            })
+            }
         } else {
-            viewModel.bestResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.bestResult.observe(viewLifecycleOwner) {
                 if (it != null) {
                     sBestResultText.visibility = View.VISIBLE
                     sBestResultLayout.visibility = View.VISIBLE
@@ -297,7 +297,7 @@ class TimerFragment : Fragment(), SensorEventListener {
                     sTypeTextBest.text = it.type
                     sDateTextBest.text = Converter.timeToDate(it.timestamp)
                 }
-            })
+            }
         }
     }
 

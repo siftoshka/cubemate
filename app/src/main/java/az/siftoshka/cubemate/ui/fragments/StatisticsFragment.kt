@@ -19,7 +19,6 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_settings.cToolbar
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import javax.inject.Inject
 
@@ -44,7 +43,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             2 -> sortByType()
             else -> sortByDate()
         }
-
     }
 
     private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner, Observer {
@@ -74,27 +72,27 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun sortByDate() {
-        viewModel.resultsByDate.observe(viewLifecycleOwner, Observer {
+        viewModel.resultsByDate.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
-        })
+        }
     }
 
     private fun sortByTime() {
-        viewModel.resultsByTime.observe(viewLifecycleOwner, Observer {
+        viewModel.resultsByTime.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
-        })
+        }
     }
 
     private fun sortByType() {
-        viewModel.resultsByType.observe(viewLifecycleOwner, Observer {
+        viewModel.resultsByType.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
-        })
+        }
     }
 
     private fun setBarChart(results: List<Result>) {
