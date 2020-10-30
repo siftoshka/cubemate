@@ -198,6 +198,17 @@
                         app:theme="@style/ColorSwitchStyle" />
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-6dp"
+                    android:layout_marginBottom="12dp"
+                    android:textSize="12sp"
+                    android:text="@string/sensor_mode_warning"
+                    android:textColor="@color/red"
+                    android:fontFamily="@font/semibold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -417,6 +428,17 @@
                     android:fontFamily="@font/regular"
                     android:maxLines="1"
                     android:text="Icons made by Freepik from www.flaticon.com"
+                    android:textColor="@color/dark_600"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/regular"
+                    android:text="Pulse animation by chetah mani at lottiefiles.com\nHappy puzzling by Camelia Filip at lottiefiles.com\nSearch System by Mikhail Voloshin at lottiefiles.com\nGet in touch with us / Online managers by Mikhail Voloshin at lottiefiles.com\nempty by Andrei Deniz at lottiefiles.com"
                     android:textColor="@color/dark_600"
                     android:textSize="14sp"
                     tools:ignore="HardcodedText" />

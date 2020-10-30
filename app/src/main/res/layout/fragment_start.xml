@@ -32,7 +32,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:layout_weight="1"
         android:fontFamily="@font/regular"
         android:gravity="center_horizontal"
@@ -49,6 +49,7 @@
         android:layout_marginBottom="10dp"
         android:text="@string/go"
         android:textColor="@color/white"
+        android:paddingHorizontal="24dp"
         android:textSize="16sp"
         app:cornerRadius="10dp" />
 

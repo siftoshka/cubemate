@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CubeMate</string>
     <string name="welcome">Welcome to CubeMate!</string>
-    <string name="about">CubeMate - is a SpeedCube Timer. Here you can train and see your statistics. CubeMate is absolutely free and without any ads.</string>
+    <string name="about">CubeMate - is a SpeedCube Timer.\nHere you can train and see your statistics. CubeMate is absolutely free and without any ads.</string>
 
     <string name="timer">Timer</string>
     <string name="stats">Statistics</string>
@@ -23,6 +23,7 @@
     <string name="your_result">Your result is</string>
     <string name="cube_mode">In a cube mode:</string>
     <string name="sensor_mode_text">Turn on Sensor Mode (Timer)</string>
+    <string name="sensor_mode_warning">This function is experimental!</string>
     <string name="avg_error">You don\'t have any scores</string>
     <string name="tap_text_start">Press and take into a square \n to start a timer</string>
     <string name="ready">Ready?</string>

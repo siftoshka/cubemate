@@ -45,14 +45,15 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner, Observer {
-        avgScore?.text = Converter.roundOffDecimal(it).toString()
+    private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner) {
         if (it == null) {
             avgScore?.textSize = 14F
             avgScore?.setTextColor(resources.getColor(R.color.gray))
             avgScore?.text = getString(R.string.avg_error)
+        } else {
+            avgScore?.text = Converter.roundOffDecimal(it).toString()
         }
-    })
+    }
 
     private fun setupRecyclerView() = recyclerView.apply {
         statAdapter = StatAdapter(object : StatAdapter.StatItemClickListener {
