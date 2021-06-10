@@ -1,5 +1,6 @@
 package az.siftoshka.cubemate.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.SENSOR_SERVICE
 import android.content.SharedPreferences
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
+import az.siftoshka.cubemate.databinding.FragmentTimerAltBinding
+import az.siftoshka.cubemate.databinding.FragmentTimerBinding
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
@@ -25,10 +28,8 @@ import az.siftoshka.cubemate.utils.Constants.PREF_LAUNCH
 import az.siftoshka.cubemate.utils.Constants.PREF_MODE
 import az.siftoshka.cubemate.utils.Converter
 import az.siftoshka.cubemate.utils.MainListener
+import az.siftoshka.cubemate.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_timer.*
-import kotlinx.android.synthetic.main.fragment_timer.animationImage
-import kotlinx.android.synthetic.main.fragment_timer_alt.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -52,6 +53,9 @@ class TimerFragment : Fragment(), SensorEventListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    private val binding : FragmentTimerBinding by viewBinding(FragmentTimerBinding::bind)
+    private val bindingAlt : FragmentTimerAltBinding by viewBinding(FragmentTimerAltBinding::bind)
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -107,9 +111,10 @@ class TimerFragment : Fragment(), SensorEventListener {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun getTapModeFunctionality() {
         if (tapMode != 101) {
-            animationImage.setOnTouchListener { v, event ->
+            bindingAlt.animationImage.setOnTouchListener { v, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> if (!isStarted) readyStage()
                     MotionEvent.ACTION_UP -> {
@@ -132,14 +137,14 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (tapMode == 101) {
             mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
             viewModel.insertResult(result)
-            tryAgainButton?.visibility = View.VISIBLE
-            animationImage?.visibility = View.GONE
-            sensorText.visibility = View.INVISIBLE
-            tryAgainButton?.setOnClickListener {
+            binding.tryAgainButton.visibility = View.VISIBLE
+            binding.animationImage.visibility = View.GONE
+            binding.sensorText.visibility = View.INVISIBLE
+            binding.tryAgainButton.setOnClickListener {
                 registerSensor()
-                tryAgainButton.visibility = View.GONE
-                animationImage?.visibility = View.VISIBLE
-                sensorText.visibility = View.VISIBLE
+                binding.tryAgainButton.visibility = View.GONE
+                binding.animationImage.visibility = View.VISIBLE
+                binding.sensorText.visibility = View.VISIBLE
             }
         } else {
             mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
@@ -148,36 +153,36 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     private fun readyStage() {
-        animationImage?.visibility = View.INVISIBLE
-        chronometer?.setTextColor(resources.getColor(R.color.red))
-        chronometer?.textSize = 30F
-        tapText?.text = resources.getString(R.string.ready)
+        bindingAlt.animationImage.visibility = View.INVISIBLE
+        bindingAlt.chronometer.setTextColor(resources.getColor(R.color.red))
+        bindingAlt.chronometer.textSize = 30F
+        bindingAlt.tapText.text = resources.getString(R.string.ready)
     }
 
     private fun startStage() {
-        animationImage?.visibility = View.VISIBLE
-        animationImage?.setAnimation(R.raw.puzzle)
-        animationImage?.playAnimation()
+        bindingAlt.animationImage.visibility = View.VISIBLE
+        bindingAlt.animationImage.setAnimation(R.raw.puzzle)
+        bindingAlt.animationImage.playAnimation()
         isStarted = true
-        chronometer?.base = SystemClock.elapsedRealtime()
-        chronometer?.start()
-        chronometer?.setTextColor(resources.getColor(R.color.colorPrimary))
-        chronometer?.textSize = 50F
-        tapText?.text = resources.getString(R.string.go)
+        bindingAlt.chronometer.base = SystemClock.elapsedRealtime()
+        bindingAlt.chronometer.start()
+        bindingAlt.chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+        bindingAlt.chronometer.textSize = 50F
+        bindingAlt.tapText.text = resources.getString(R.string.go)
     }
 
     private fun finishStage() {
-        animationImage.visibility = View.VISIBLE
-        animationImage?.setAnimation(R.raw.pulse)
-        animationImage?.playAnimation()
+        bindingAlt.animationImage.visibility = View.VISIBLE
+        bindingAlt.animationImage.setAnimation(R.raw.pulse)
+        bindingAlt.animationImage.playAnimation()
         isStarted = false
-        val elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.base)
-        chronometer.stop()
+        val elapsedMillis = (SystemClock.elapsedRealtime() - bindingAlt.chronometer.base)
+        bindingAlt.chronometer.stop()
         if (type == null) type = "3x3"
         val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
-        chronometer.base = SystemClock.elapsedRealtime()
-        chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
-        chronometer.textSize = 50F
+        bindingAlt.chronometer.base = SystemClock.elapsedRealtime()
+        bindingAlt.chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+        bindingAlt.chronometer.textSize = 50F
         showMessage(result)
     }
 
@@ -193,10 +198,10 @@ class TimerFragment : Fragment(), SensorEventListener {
     private fun readySensorStage() {
         if (!alreadyReady) {
             Timber.d("Already ready: $alreadyReady")
-            animationImage?.visibility = View.INVISIBLE
-            sChronometer?.setTextColor(resources.getColor(R.color.red))
-            sChronometer?.textSize = 30F
-            sensorText?.text = resources.getString(R.string.ready)
+            binding.animationImage.visibility = View.INVISIBLE
+            binding.sChronometer.setTextColor(resources.getColor(R.color.red))
+            binding.sChronometer.textSize = 30F
+            binding.sensorText.text = resources.getString(R.string.ready)
             alreadyReady = true
         }
     }
@@ -204,14 +209,14 @@ class TimerFragment : Fragment(), SensorEventListener {
     private fun startSensorStage() {
         if (!alreadyStart) {
             Timber.d("Already start: $alreadyStart")
-            animationImage?.visibility = View.VISIBLE
-            animationImage?.setAnimation(R.raw.puzzle)
-            animationImage?.playAnimation()
-            sChronometer?.base = SystemClock.elapsedRealtime()
-            sChronometer?.start()
-            sChronometer?.setTextColor(resources.getColor(R.color.colorPrimary))
-            sChronometer?.textSize = 50F
-            sensorText?.text = resources.getString(R.string.go)
+            binding.animationImage.visibility = View.VISIBLE
+            binding.animationImage.setAnimation(R.raw.puzzle)
+            binding.animationImage.playAnimation()
+            binding.sChronometer.base = SystemClock.elapsedRealtime()
+            binding.sChronometer.start()
+            binding.sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+            binding.sChronometer.textSize = 50F
+            binding.sensorText.text = resources.getString(R.string.go)
             alreadyStart = true
         }
     }
@@ -220,16 +225,16 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (!alreadyFinish) {
             Timber.d("Already finish: $alreadyFinish")
             alreadyFinish = true
-            animationImage.visibility = View.VISIBLE
-            animationImage?.setAnimation(R.raw.pulse)
-            animationImage?.playAnimation()
-            val elapsedMillis = (SystemClock.elapsedRealtime() - sChronometer.base)
-            sChronometer.stop()
+            binding.animationImage.visibility = View.VISIBLE
+            binding.animationImage.setAnimation(R.raw.pulse)
+            binding.animationImage.playAnimation()
+            val elapsedMillis = (SystemClock.elapsedRealtime() - binding.sChronometer.base)
+            binding.sChronometer.stop()
             if (type == null) { type = "3x3" }
             val result = Result(elapsedMillis.toFloat() / 1000, Date().time, type, typePriority(type))
-            sChronometer.base = SystemClock.elapsedRealtime()
-            sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
-            sChronometer.textSize = 32F
+            binding.sChronometer.base = SystemClock.elapsedRealtime()
+            binding.sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+            binding.sChronometer.textSize = 32F
             showMessage(result)
         }
     }
@@ -257,21 +262,21 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (tapMode != 101) {
             viewModel.recentResult.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    recentResultText.visibility = View.VISIBLE
-                    recentResultLayout.visibility = View.VISIBLE
-                    scoreTextRecent.text = it.timeInSeconds.toString()
-                    typeTextRecent.text = it.type
-                    dateTextRecent.text = Converter.timeToDate(it.timestamp)
+                    bindingAlt.recentResultText.visibility = View.VISIBLE
+                    bindingAlt.recentResultLayout.visibility = View.VISIBLE
+                    bindingAlt.scoreTextRecent.text = it.timeInSeconds.toString()
+                    bindingAlt.typeTextRecent.text = it.type
+                    bindingAlt.dateTextRecent.text = Converter.timeToDate(it.timestamp)
                 }
             }
         } else {
             viewModel.recentResult.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    sRecentResultText.visibility = View.VISIBLE
-                    sRecentResultLayout.visibility = View.VISIBLE
-                    sScoreTextRecent.text = it.timeInSeconds.toString()
-                    sTypeTextRecent.text = it.type
-                    sDateTextRecent.text = Converter.timeToDate(it.timestamp)
+                    binding.sRecentResultText.visibility = View.VISIBLE
+                    binding.sRecentResultLayout.visibility = View.VISIBLE
+                    binding.sScoreTextRecent.text = it.timeInSeconds.toString()
+                    binding.sTypeTextRecent.text = it.type
+                    binding.sDateTextRecent.text = Converter.timeToDate(it.timestamp)
                 }
             }
         }
@@ -281,21 +286,21 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (tapMode != 101) {
             viewModel.bestResult.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    bestResultText.visibility = View.VISIBLE
-                    bestResultLayout.visibility = View.VISIBLE
-                    scoreTextBest.text = it.timeInSeconds.toString()
-                    typeTextBest.text = it.type
-                    dateTextBest.text = Converter.timeToDate(it.timestamp)
+                    bindingAlt.bestResultText.visibility = View.VISIBLE
+                    bindingAlt.bestResultLayout.visibility = View.VISIBLE
+                    bindingAlt.scoreTextBest.text = it.timeInSeconds.toString()
+                    bindingAlt.typeTextBest.text = it.type
+                    bindingAlt.dateTextBest.text = Converter.timeToDate(it.timestamp)
                 }
             }
         } else {
             viewModel.bestResult.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    sBestResultText.visibility = View.VISIBLE
-                    sBestResultLayout.visibility = View.VISIBLE
-                    sScoreTextBest.text = it.timeInSeconds.toString()
-                    sTypeTextBest.text = it.type
-                    sDateTextBest.text = Converter.timeToDate(it.timestamp)
+                    binding.sBestResultText.visibility = View.VISIBLE
+                    binding.sBestResultLayout.visibility = View.VISIBLE
+                    binding.sScoreTextBest.text = it.timeInSeconds.toString()
+                    binding.sTypeTextBest.text = it.type
+                    binding.sDateTextBest.text = Converter.timeToDate(it.timestamp)
                 }
             }
         }
@@ -307,7 +312,7 @@ class TimerFragment : Fragment(), SensorEventListener {
     }
 
     private fun unsupportedSensor() {
-        if (tapMode == 101) { sensorText?.text = resources.getString(R.string.unsupported) }
+        if (tapMode == 101) { binding.sensorText.text = resources.getString(R.string.unsupported) }
     }
 
     override fun onResume() {

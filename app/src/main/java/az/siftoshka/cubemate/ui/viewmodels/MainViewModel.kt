@@ -1,14 +1,16 @@
 package az.siftoshka.cubemate.ui.viewmodels
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.asLiveData
 import az.siftoshka.cubemate.db.MainRepository
 import az.siftoshka.cubemate.db.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
 
     val resultsByTime = mainRepository.getAllResultsByTime().asLiveData(viewModelScope.coroutineContext)
     val resultsByDate = mainRepository.getAllResultsByDate().asLiveData(viewModelScope.coroutineContext)

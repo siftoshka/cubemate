@@ -36,8 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-        navController
-            .addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
                 val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
                 when (destination.id) {
                     R.id.settingsFragment, R.id.timerFragment, R.id.statisticsFragment -> {

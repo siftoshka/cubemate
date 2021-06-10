@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.adapters.StatAdapter
+import az.siftoshka.cubemate.databinding.FragmentStatisticsBinding
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
 import az.siftoshka.cubemate.utils.Converter
+import az.siftoshka.cubemate.utils.viewBinding
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_statistics.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,11 +30,13 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    private val binding : FragmentStatisticsBinding by viewBinding(FragmentStatisticsBinding::bind)
+
     private lateinit var statAdapter: StatAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
-        cToolbar.setCollapsedTitleTextAppearance(R.style.CollapsingCollapsed)
+        binding.cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
+        binding.cToolbar.setCollapsedTitleTextAppearance(R.style.CollapsingCollapsed)
         setupRecyclerView()
         observeAverageResult()
         when (sharedPreferences.getInt(PREF_SORT_POS, 0)) {
@@ -47,15 +49,15 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner) {
         if (it == null) {
-            avgScore?.textSize = 14F
-            avgScore?.setTextColor(resources.getColor(R.color.gray))
-            avgScore?.text = getString(R.string.avg_error)
+            binding.avgScore.textSize = 14F
+            binding.avgScore.setTextColor(resources.getColor(R.color.gray))
+            binding.avgScore.text = getString(R.string.avg_error)
         } else {
-            avgScore?.text = Converter.roundOffDecimal(it).toString()
+            binding.avgScore.text = Converter.roundOffDecimal(it).toString()
         }
     }
 
-    private fun setupRecyclerView() = recyclerView.apply {
+    private fun setupRecyclerView() = binding.recyclerView.apply {
         statAdapter = StatAdapter(object : StatAdapter.StatItemClickListener {
             override fun onPostClicked(result: Result) { openDialog(result) }
         })
@@ -74,7 +76,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun sortByDate() {
         viewModel.resultsByDate.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
+            if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         }
@@ -82,7 +84,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun sortByTime() {
         viewModel.resultsByTime.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
+            if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         }
@@ -90,7 +92,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun sortByType() {
         viewModel.resultsByType.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) { emptyLayout.visibility = View.VISIBLE }
+            if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
             statAdapter.statisticList(it)
             setBarChart(it)
         }
@@ -100,40 +102,40 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val entries = ArrayList<BarEntry>()
         results.asReversed().forEachIndexed { index, result -> entries.add(BarEntry(index.toFloat(), result.timeInSeconds)) }
         if(entries.isEmpty() || entries.size < 5) {
-            dataEmptyText.visibility = View.VISIBLE
-            mainChart.visibility = View.GONE
+            binding.dataEmptyText.visibility = View.VISIBLE
+            binding.mainChart.visibility = View.GONE
         } else {
-            dataEmptyText.visibility = View.GONE
-            mainChart.visibility = View.VISIBLE
+            binding.dataEmptyText.visibility = View.GONE
+            binding.mainChart.visibility = View.VISIBLE
         }
         val barDataSet = BarDataSet(entries.takeLast(30), "")
         barDataSet.setDrawValues(false)
         barDataSet.color = resources.getColor(R.color.colorPrimary)
-        mainChart.data = BarData(barDataSet)
-        mainChart.animateY(1000)
-        mainChart.legend.isEnabled = false
-        mainChart.axisRight.apply {
+        binding.mainChart.data = BarData(barDataSet)
+        binding.mainChart.animateY(1000)
+        binding.mainChart.legend.isEnabled = false
+        binding.mainChart.axisRight.apply {
             setDrawGridLines(false)
             setDrawLabels(false)
             setDrawAxisLine(false)
         }
-        mainChart.axisLeft.apply {
+        binding.mainChart.axisLeft.apply {
             setDrawGridLines(false)
             setDrawLabels(false)
             setDrawAxisLine(false)
         }
-        mainChart.xAxis.apply {
+        binding.mainChart.xAxis.apply {
             setDrawGridLines(false)
             setDrawLabels(false)
             setDrawAxisLine(false)
         }
-        mainChart.data.isHighlightEnabled = false
-        mainChart.setDrawGridBackground(false)
-        mainChart.setDrawBorders(false)
-        mainChart.description.isEnabled = false
-        mainChart.axisRight.isInverted = true
-        mainChart.setScaleEnabled(false)
-        mainChart.setVisibleYRangeMaximum(10F, YAxis.AxisDependency.LEFT);
-        mainChart.setPinchZoom(false)
+        binding.mainChart.data.isHighlightEnabled = false
+        binding.mainChart.setDrawGridBackground(false)
+        binding.mainChart.setDrawBorders(false)
+        binding.mainChart.description.isEnabled = false
+        binding.mainChart.axisRight.isInverted = true
+        binding.mainChart.setScaleEnabled(false)
+        binding.mainChart.setVisibleYRangeMaximum(10F, YAxis.AxisDependency.LEFT);
+        binding.mainChart.setPinchZoom(false)
     }
 }

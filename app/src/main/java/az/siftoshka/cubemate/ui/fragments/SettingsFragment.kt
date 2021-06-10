@@ -14,10 +14,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import az.siftoshka.cubemate.R
-import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import az.siftoshka.cubemate.databinding.FragmentSettingsBinding
 import az.siftoshka.cubemate.utils.Constants
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_FREEPIK
 import az.siftoshka.cubemate.utils.Constants.DESIGNER_OKTAY
@@ -29,8 +28,8 @@ import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
 import az.siftoshka.cubemate.utils.Constants.PREF_MODE
 import az.siftoshka.cubemate.utils.Constants.PREF_SORT
 import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
+import az.siftoshka.cubemate.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -42,16 +41,18 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    private val binding : FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
-        cToolbar.setCollapsedTitleTextAppearance(R.style.CollapsingCollapsed)
-        telegramContact.setOnClickListener { showTelegramPage() }
-        githubContact.setOnClickListener { showGithubPage() }
-        instagramContact.setOnClickListener { showInstagramPage() }
-        rateButton.setOnClickListener { showGooglePlay() }
-        privacyPolicy.setOnClickListener { showPrivacyPolicyScreen() }
-        termsOfService.setOnClickListener { showTermsOfServiceScreen() }
-        license.setOnClickListener { showLicenses() }
+        binding.cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
+        binding.cToolbar.setCollapsedTitleTextAppearance(R.style.CollapsingCollapsed)
+        binding.telegramContact.setOnClickListener { showTelegramPage() }
+        binding.githubContact.setOnClickListener { showGithubPage() }
+        binding.instagramContact.setOnClickListener { showInstagramPage() }
+        binding.rateButton.setOnClickListener { showGooglePlay() }
+        binding.privacyPolicy.setOnClickListener { showPrivacyPolicyScreen() }
+        binding.termsOfService.setOnClickListener { showTermsOfServiceScreen() }
+        binding.license.setOnClickListener { showLicenses() }
         spannableCreditOktay()
         spannableCreditFreepik()
         modeSwitcher()
@@ -62,8 +63,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun modeSwitcher() {
         val tapMode = sharedPreferences.getInt(PREF_MODE, 0)
 
-        modeSwitcher.isChecked = tapMode == 101
-        modeSwitcher.setOnCheckedChangeListener { _, b ->
+        binding.modeSwitcher.isChecked = tapMode == 101
+        binding.modeSwitcher.setOnCheckedChangeListener { _, b ->
             if (b) {
                 sharedPreferences.edit()
                     .putInt(PREF_MODE, 101)
@@ -114,7 +115,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun spannableCreditOktay() {
-        val cOktay = creditsOktay.text.toString()
+        val cOktay = binding.creditsOktay.text.toString()
         val spannableStringOktay = SpannableString(cOktay)
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
@@ -129,12 +130,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         spannableStringOktay.setSpan(clickableSpan, 25, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        creditsOktay.text = spannableStringOktay
-        creditsOktay.movementMethod = LinkMovementMethod.getInstance()
+        binding.creditsOktay.text = spannableStringOktay
+        binding.creditsOktay.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun spannableCreditFreepik() {
-        val cFreepik = creditsFreepik.text.toString()
+        val cFreepik = binding.creditsFreepik.text.toString()
         val spannableStringFreepik = SpannableString(cFreepik)
         val clickableSpan1: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
@@ -162,8 +163,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         spannableStringFreepik.setSpan(clickableSpan1, 14, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannableStringFreepik.setSpan(clickableSpan2, 27, 43, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        creditsFreepik.text = spannableStringFreepik
-        creditsFreepik.movementMethod = LinkMovementMethod.getInstance()
+        binding.creditsFreepik.text = spannableStringFreepik
+        binding.creditsFreepik.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun spinner() {
@@ -171,10 +172,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_txt, types)
         val spinnerItem = sharedPreferences.getString(PREF_CUBE, null)
         GlobalScope.launch {
-            spinner?.setSelection(types.indexOf(spinnerItem))
+            binding.spinner.setSelection(types.indexOf(spinnerItem))
         }
-        spinner?.adapter = adapter
-        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinner.adapter = adapter
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 sharedPreferences.edit()
                     .putString(PREF_CUBE, types[position])
@@ -190,10 +191,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val spinnerItem = sharedPreferences.getString(PREF_SORT, null)
         GlobalScope.launch {
             Timber.d("$spinnerItem")
-            spinnerSort?.setSelection(types.indexOf(spinnerItem))
+            binding.spinnerSort.setSelection(types.indexOf(spinnerItem))
         }
-        spinnerSort?.adapter = adapter
-        spinnerSort?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerSort.adapter = adapter
+        binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 sharedPreferences.edit()
                     .putString(PREF_SORT, types[position])

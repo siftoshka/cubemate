@@ -10,9 +10,6 @@ import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.utils.Converter
 import kotlinx.android.synthetic.main.item_stat.view.*
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class StatAdapter(private val clickListener: StatItemClickListener) : RecyclerView.Adapter<StatAdapter.StatViewHolder>() {
 
