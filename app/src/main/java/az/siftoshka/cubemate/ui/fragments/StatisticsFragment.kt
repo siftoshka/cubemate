@@ -32,7 +32,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private val binding : FragmentStatisticsBinding by viewBinding(FragmentStatisticsBinding::bind)
 
-    private lateinit var statAdapter: StatAdapter
+    private var statAdapter: StatAdapter ?= null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.cToolbar.setExpandedTitleTextAppearance(R.style.CollapsingExpanded)
@@ -77,7 +77,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun sortByDate() {
         viewModel.resultsByDate.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
-            statAdapter.statisticList(it)
+            statAdapter?.statisticList(it)
             setBarChart(it)
         }
     }
@@ -85,7 +85,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun sortByTime() {
         viewModel.resultsByTime.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
-            statAdapter.statisticList(it)
+            statAdapter?.statisticList(it)
             setBarChart(it)
         }
     }
@@ -93,7 +93,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun sortByType() {
         viewModel.resultsByType.observe(viewLifecycleOwner) {
             if (it.isEmpty()) { binding.emptyLayout.visibility = View.VISIBLE }
-            statAdapter.statisticList(it)
+            statAdapter?.statisticList(it)
             setBarChart(it)
         }
     }
