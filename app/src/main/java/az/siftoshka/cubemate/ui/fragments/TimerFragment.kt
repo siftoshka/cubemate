@@ -23,12 +23,10 @@ import az.siftoshka.cubemate.databinding.FragmentTimerAltBinding
 import az.siftoshka.cubemate.databinding.FragmentTimerBinding
 import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
+import az.siftoshka.cubemate.utils.*
 import az.siftoshka.cubemate.utils.Constants.PREF_CUBE
 import az.siftoshka.cubemate.utils.Constants.PREF_LAUNCH
 import az.siftoshka.cubemate.utils.Constants.PREF_MODE
-import az.siftoshka.cubemate.utils.Converter
-import az.siftoshka.cubemate.utils.MainListener
-import az.siftoshka.cubemate.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -114,14 +112,14 @@ class TimerFragment : Fragment(), SensorEventListener {
     @SuppressLint("ClickableViewAccessibility")
     private fun getTapModeFunctionality() {
         if (tapMode != 101) {
-            bindingAlt.animationImage.setOnTouchListener { v, event ->
+            bindingAlt.animationImage.setOnTouchListener { view, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> if (!isStarted) readyStage()
                     MotionEvent.ACTION_UP -> {
                         if (isStarted) { finishStage() }
                         else {
                             startStage()
-                            v.performClick()
+                            view.performClick()
                         }
                     }
                 }
@@ -135,7 +133,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         alreadyStart = false
         alreadyFinish = false
         if (tapMode == 101) {
-            mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
+            mainListener?.showMessage(getString(R.string.score_text_result, result.timeInSeconds.round(2)))
             viewModel.insertResult(result)
             binding.tryAgainButton.visibility = View.VISIBLE
             binding.animationImage.visibility = View.GONE
@@ -147,14 +145,14 @@ class TimerFragment : Fragment(), SensorEventListener {
                 binding.sensorText.visibility = View.VISIBLE
             }
         } else {
-            mainListener?.showMessage("Your score ${result.timeInSeconds} seconds is saved")
+            mainListener?.showMessage(getString(R.string.score_text_result, result.timeInSeconds.round(2)))
             viewModel.insertResult(result)
         }
     }
 
     private fun readyStage() {
         bindingAlt.animationImage.visibility = View.INVISIBLE
-        bindingAlt.chronometer.setTextColor(resources.getColor(R.color.red))
+        bindingAlt.chronometer.setTextColor(requireView().color(R.color.red))
         bindingAlt.chronometer.textSize = 30F
         bindingAlt.tapText.text = resources.getString(R.string.ready)
     }
@@ -166,7 +164,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         isStarted = true
         bindingAlt.chronometer.base = SystemClock.elapsedRealtime()
         bindingAlt.chronometer.start()
-        bindingAlt.chronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+        bindingAlt.chronometer.setTextColor(requireView().color(R.color.colorPrimary))
         bindingAlt.chronometer.textSize = 50F
         bindingAlt.tapText.text = resources.getString(R.string.go)
     }
@@ -199,7 +197,7 @@ class TimerFragment : Fragment(), SensorEventListener {
         if (!alreadyReady) {
             Timber.d("Already ready: $alreadyReady")
             binding.animationImage.visibility = View.INVISIBLE
-            binding.sChronometer.setTextColor(resources.getColor(R.color.red))
+            binding.sChronometer.setTextColor(requireView().color(R.color.red))
             binding.sChronometer.textSize = 30F
             binding.sensorText.text = resources.getString(R.string.ready)
             alreadyReady = true
@@ -214,7 +212,7 @@ class TimerFragment : Fragment(), SensorEventListener {
             binding.animationImage.playAnimation()
             binding.sChronometer.base = SystemClock.elapsedRealtime()
             binding.sChronometer.start()
-            binding.sChronometer.setTextColor(resources.getColor(R.color.colorPrimary))
+            binding.sChronometer.setTextColor(requireView().color(R.color.colorPrimary))
             binding.sChronometer.textSize = 50F
             binding.sensorText.text = resources.getString(R.string.go)
             alreadyStart = true

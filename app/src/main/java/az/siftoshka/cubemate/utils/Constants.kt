@@ -8,7 +8,8 @@ object Constants {
     const val PREF_SORT = "sort"
     const val PREF_SORT_POS = "sort pos"
     const val PREF_LAUNCH = "launch"
-    const val PREF_WEB = "web"
+
+    const val EXTRA_WEB = "web"
 
     const val DEV_TELEGRAM = "https://t.me/siftoshka"
     const val DEV_GITHUB = "https://github.com/siftoshka"

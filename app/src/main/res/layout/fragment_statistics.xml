@@ -55,18 +55,19 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/mainChart"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="50dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="50dp" />
+
                 <TextView
                     android:id="@+id/dataEmptyText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="@string/chart_empty_hint"
                     android:textColor="@color/colorAccent"
                     android:textSize="22sp"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:layout_gravity="center"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
 
@@ -103,14 +104,15 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/empty" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="@string/empty_list_hint"
             android:textColor="@color/dark_600"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_gravity="center"/>
+            android:textSize="24sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -123,6 +125,7 @@
         android:overScrollMode="never"
         android:paddingBottom="24dp"
         android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

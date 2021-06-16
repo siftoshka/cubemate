@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
 
 
         bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
-        bottomNavigationView.setOnNavigationItemReselectedListener { /**NOTHING**/ }
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
@@ -49,8 +48,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainListener {
             }
     }
 
+    @Suppress("DEPRECATION")
     private fun showStatusBar() = window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
+    @Suppress("DEPRECATION")
     private fun hideStatusBar() = window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
     private fun firstOpen() {

@@ -16,25 +16,35 @@
     <string name="rate_app">Rate App</string>
     <string name="app_version">App Version:</string>
 
-    <string name="go">Let\'s go!</string>
-    <string name="dark_mode_text">Turn on Dark Mode</string>
     <string name="timer_hint">Put your Cube into a square \n when you are ready</string>
+    <string name="tap_text_start">Press and take into a square \n to start a timer</string>
+    <string name="ready">Ready?</string>
+    <string name="go">Let\'s go!</string>
+    <string name="try_again">Try Again</string>
+    <string name="recent_result">Recent Result ⏰</string>
+    <string name="best_result">Best Result ⭐</string>
+    <string name="score_text_result">Your score %s seconds is saved</string>
+
     <string name="your_average_score">Your average score is</string>
     <string name="your_result">Your result is</string>
+    <string name="avg_error">You don\'t have any scores</string>
+    <string name="empty_list_hint">Your list is empty!</string>
+    <string name="chart_empty_hint">(No chart data is available)\n You need more than 5 results</string>
+
+    <string name="dialog_result_title">Delete Result</string>
+    <string name="dialog_result_description">Are you sure?</string>
+    <string name="positive_dialog_action">Yes</string>
+    <string name="negative_dialog_action">No</string>
+
+    <string name="dark_mode_text">Turn on Dark Mode</string>
     <string name="cube_mode">In a cube mode:</string>
     <string name="sensor_mode_text">Turn on Sensor Mode (Timer)</string>
     <string name="sensor_mode_warning">This function is experimental!</string>
-    <string name="avg_error">You don\'t have any scores</string>
-    <string name="tap_text_start">Press and take into a square \n to start a timer</string>
-    <string name="ready">Ready?</string>
     <string name="cube_type_text">Select Cube Type</string>
-    <string name="unsupported">Light Sensor is not supported \n on your device</string>
-    <string name="try_again">Try Again</string>
-    <string name="empty_list_hint">Your list is empty!</string>
     <string name="sort_by">Sort by</string>
-    <string name="chart_empty_hint">(No chart data is available)\n You need more than 5 results</string>
-    <string name="recent_result">Recent Result ⏰</string>
-    <string name="best_result">Best Result ⭐</string>
+    <string name="unsupported">Light Sensor is not supported \n on your device</string>
+    <string name="google_play_market">market://details?id=%s</string>
+    <string name="google_play_store">https://play.google.com/store/apps/details?id=%s</string>
 
     <string-array name="Types">
         <item>3x3</item>

@@ -20,3 +20,10 @@ class Converter {
         }
     }
 }
+
+fun Float.round(decimals: Int): String {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    val result = kotlin.math.round(this * multiplier) / multiplier
+    return result.toString()
+}

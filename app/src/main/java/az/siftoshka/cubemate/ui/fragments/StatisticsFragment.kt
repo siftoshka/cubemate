@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import az.siftoshka.cubemate.R
 import az.siftoshka.cubemate.adapters.StatAdapter
 import az.siftoshka.cubemate.databinding.FragmentStatisticsBinding
@@ -13,6 +12,7 @@ import az.siftoshka.cubemate.db.Result
 import az.siftoshka.cubemate.ui.viewmodels.MainViewModel
 import az.siftoshka.cubemate.utils.Constants.PREF_SORT_POS
 import az.siftoshka.cubemate.utils.Converter
+import az.siftoshka.cubemate.utils.color
 import az.siftoshka.cubemate.utils.viewBinding
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
@@ -50,7 +50,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun observeAverageResult() = viewModel.avgResult.observe(viewLifecycleOwner) {
         if (it == null) {
             binding.avgScore.textSize = 14F
-            binding.avgScore.setTextColor(resources.getColor(R.color.gray))
+            binding.avgScore.setTextColor(requireView().color(R.color.gray))
             binding.avgScore.text = getString(R.string.avg_error)
         } else {
             binding.avgScore.text = Converter.roundOffDecimal(it).toString()
@@ -62,15 +62,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             override fun onPostClicked(result: Result) { openDialog(result) }
         })
         adapter = statAdapter
-        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     private fun openDialog(result: Result) {
         val builder = MaterialAlertDialogBuilder(requireContext(), R.style.AppCompatAlertDialogStyle)
-        builder.setTitle("Delete Result")
-        builder.setMessage("Are you sure?")
-        builder.setPositiveButton(android.R.string.yes) { _, _ -> viewModel.deleteResult(result) }
-        builder.setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
+        builder.setTitle(getString(R.string.dialog_result_title))
+        builder.setMessage(getString(R.string.dialog_result_description))
+        builder.setPositiveButton(R.string.positive_dialog_action) { _, _ -> viewModel.deleteResult(result) }
+        builder.setNegativeButton(R.string.negative_dialog_action) { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
 
@@ -110,7 +109,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
         val barDataSet = BarDataSet(entries.takeLast(30), "")
         barDataSet.setDrawValues(false)
-        barDataSet.color = resources.getColor(R.color.colorPrimary)
+        barDataSet.color = requireView().color(R.color.colorPrimary)
         binding.mainChart.data = BarData(barDataSet)
         binding.mainChart.animateY(1000)
         binding.mainChart.legend.isEnabled = false
